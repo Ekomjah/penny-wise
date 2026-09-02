@@ -68,6 +68,8 @@ export default {
   },
 }
 ```
+
+```
 //Configure Tailwind (tailwind.config.js) this is optional for old V3
 module.exports = {
   content: ["./index.html", "./src/*/.{js,ts,jsx,tsx}"],
@@ -76,7 +78,9 @@ module.exports = {
   },
   plugins: [],
 }
+```
 
+```
 //Add Tailwind to index.css
 @tailwind base;
 @tailwind components;
@@ -114,6 +118,7 @@ mongoose.connect(process.env.MONGODB_URI)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(Server running on port ${PORT}));
 ```
+
 ## Install and Run Mongo DB
 - It will be setup in Docker
 
