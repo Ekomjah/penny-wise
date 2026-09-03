@@ -52,9 +52,9 @@ docker compose up --build
 
 This starts three services:
 
-- mongo - MongoDB on port 27017
-- api - Express API on http://localhost:4000
-- web - Next.js frontend on http://localhost:3000
+- mongo    - MongoDB on port 27017
+- backend  - Express API on http://localhost:4000
+- frontend - Next.js frontend on http://localhost:3000
 
 Once it's up, seed some demo data:
 
@@ -62,7 +62,7 @@ Once it's up, seed some demo data:
 docker-compose exec api npm run seed
 ```
 
-Then open http://localhost:3000 and log in with one of the seeded accounts (see api/src/seed.js for emails - the password for all of them is password123), or register your own.
+Then open http://localhost:3000 and log in with one of the seeded accounts (see backend/src/seed.js for emails - the password for all of them is password123), or register your own.
 
 ### Without Docker
 
@@ -72,7 +72,7 @@ To do this, you will have to spin up both the frontend, backend and database ins
 - Start the Docker database and seed it
 
 ```
-docker compose up db
+docker compose up mongo
 cd backend && npm run seed
 ```
 
@@ -105,4 +105,5 @@ before starting the backend service, run this command to start the MongoDB conta
 docker compose up -d
 ```
 
-It will start the MongoDB on the port 27010, which the Backend service will connect to.-->
+It will start the MongoDB on the port 27010, which the Backend service will connect to.
+-->
