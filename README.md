@@ -4,10 +4,17 @@ Penny wise is a simple yet intuitive finance literacy app, targeted to a an audi
 The app begins with the basics - counting money, making change, simple budgeting, through short two-minute Tutorials and longer open-ended Labs.
 It's a general-purpose teaching engine, not a fixed curriculum - and it's meant to stay at everyday-basics level, not investing/credit/taxes territory.
 
+### Stack
+
+- Frontend: Next.js (App Router), React, with TailwindCSS
+- API: Node.js + Express, Mongoose
+- Database: MongoDB
+- Auth: JWT (email + password, bcrypt-hashed).
+- Tests: Jest + Supertest (API), Jest + Testing Library (frontend)
+
 ### Folder structure
 
 ```
-
 ///// Folder structure
 penny-wise/
 ├── frontend/          # React + Tailwind
@@ -34,35 +41,56 @@ penny-wise/
 
 - To run locally, first clone the project, `https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git`
 
--  Install and Run Mongo DB
+### With Docker:
 
-- It will be setup in Docker
+The fastest way to run the whole stack is Docker Compose:
+
+```
+cp .env.example .env
+docker compose up --build
+```
+
+This starts three services:
+
+- mongo - MongoDB on port 27017
+- api - Express API on http://localhost:4000
+- web - Next.js frontend on http://localhost:3000
+
+Once it's up, seed some demo data:
+
+```
+docker-compose exec api npm run seed
+```
+
+Then open http://localhost:3000 and log in with one of the seeded accounts (see api/src/seed.js for emails - the password for all of them is password123), or register your own.
+
+### Without Docker
 
 Or you can run with `npm`
-To do this, you will have to spin up both the frontend, backend and database instances: 
+To do this, you will have to spin up both the frontend, backend and database instances:
 
-- First, start initialise the db with docker, then seed it: 
+- Start the Docker database and seed it
+
 ```
 docker compose up db
 cd backend && npm run seed
 ```
 
--Then, start the backend:
+-Then, start the backend in another terminal:
+
 ```
 cd backend
 npm install
 npm run dev
 ```
 
-- Finally, the frontend; 
+- Finally, the frontend in yet another terminal;
+
 ```
 cd frontend
 npm install
 npm run dev
 ```
-
-
-
 
 <!--
 ### Creating Backend
