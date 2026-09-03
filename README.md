@@ -24,33 +24,7 @@ git push -u origin main
 
 ```
 
-### Folder structure
-
-```
-
-///// Folder structure
-penny-wise/
-├── frontend/          # React + Tailwind
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   └── index.css
-│   ├── package.json
-│   └── vite.config.js
-│
-├── backend/           # Express.js + MongoDB
-│   ├── server.js
-│   ├── models/        # MongoDB models (e.g., User.js)
-│   ├── routes/        # API routes (e.g., auth.js, users.js)
-│   ├── .env
-│   └── package.json
-│
-├── docker-compose.yml
-└── README.md
-```
-
-## Creating Penny Wise project
+### Creating Penny Wise project
 
 ```
 npm create vite@latest frontend -- --template react
