@@ -1,33 +1,20 @@
 # penny-wise
 
-### Original Git Readme
+Penny wise is a simple yet intuitive finance literacy app, targeted to a an audience of teens/pre-teens, who are learning the use of money in the real world, how to use it and how to spend it wisely.
+The app begins with the basics - counting money, making change, simple budgeting, through short two-minute Tutorials and longer open-ended Labs.
+It's a general-purpose teaching engine, not a fixed curriculum - and it's meant to stay at everyday-basics level, not investing/credit/taxes territory.
 
-```
-https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git
+### Stack
 
-…or create a new repository on the command line
-
-echo "# penny-wise" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git
-git push -u origin main
-
-…or push an existing repository from the command line
-
-git remote add origin https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git
-git branch -M main
-git push -u origin main
-
-
-```
+- Frontend: Next.js (App Router), React, with TailwindCSS
+- API: Node.js + Express, Mongoose
+- Database: MongoDB
+- Auth: JWT (email + password, bcrypt-hashed).
+- Tests: Jest + Supertest (API), Jest + Testing Library (frontend)
 
 ### Folder structure
 
 ```
-
 ///// Folder structure
 penny-wise/
 ├── frontend/          # React + Tailwind
@@ -50,79 +37,63 @@ penny-wise/
 └── README.md
 ```
 
-## Creating Penny Wise project
+## Running Penny Wise project
+
+- To run locally, first clone the project, `https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git`
+
+### With Docker:
+
+The fastest way to run the whole stack is Docker Compose:
 
 ```
-npm create vite@latest frontend -- --template react
-cd frontend
-
-//Tailwind
-npm install tailwindcss @tailwindcss/postcss postcss autoprefixer
-
-Then create postcss.config.js manually:
-
-``js
-export default {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-}
+cp .env.example .env
+docker compose up --build
 ```
 
-```
-//Configure Tailwind (tailwind.config.js) this is optional for old V3
-module.exports = {
-  content: ["./index.html", "./src/*/.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
+This starts three services:
+
+- mongo    - MongoDB on port 27017
+- backend  - Express API on http://localhost:4000
+- frontend - Next.js frontend on http://localhost:3000
+
+Once it's up, seed some demo data:
 
 ```
-//Add Tailwind to index.css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+docker-compose exec api npm run seed
 ```
 
-### Creating Backend
+Then open http://localhost:3000 and log in with one of the seeded accounts (see backend/src/seed.js for emails - the password for all of them is password123), or register your own.
+
+### Without Docker
+
+Or you can run with `npm`
+To do this, you will have to spin up both the frontend, backend and database instances:
+
+- Start the Docker database and seed it
 
 ```
-//Create a backend folder
-mkdir backend
+docker compose up mongo
+cd backend && npm run seed
+```
+
+-Then, start the backend in another terminal:
+
+```
 cd backend
-
-//Initialize Node.js project
-npm init -y
-
-//Install Express.js and MongoDB driver
-npm install express mongoose cors dotenv
-npm install --save-dev nodemon
-
-//Express server (server.js)
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-//Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+npm install
+npm run dev
 ```
 
-## Install and Run Mongo DB
+- Finally, the frontend in yet another terminal;
 
-- It will be setup in Docker
+```
+cd frontend
+npm install
+npm run dev
+```
+
+<!--
+### Creating Backend
 
 ## Create Mongo DB
 
@@ -135,3 +106,4 @@ docker compose up -d
 ```
 
 It will start the MongoDB on the port 27010, which the Backend service will connect to.
+-->
