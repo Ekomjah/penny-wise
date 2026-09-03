@@ -12,10 +12,11 @@ It's a general-purpose teaching engine, not a fixed curriculum - and it's meant 
 - Auth: JWT (email + password, bcrypt-hashed).
 - Tests: Jest + Supertest (API), Jest + Testing Library (frontend)
 
+### Creating Penny Wise project
+
 ### Folder structure
 
 ```
-///// Folder structure
 penny-wise/
 ├── frontend/          # React + Tailwind
 │   ├── src/
@@ -37,13 +38,7 @@ penny-wise/
 └── README.md
 ```
 
-## Running Penny Wise project
-
 - To run locally, first clone the project, `https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise.git`
-
-### With Docker:
-
-The fastest way to run the whole stack is Docker Compose:
 
 ```
 cp .env.example .env
