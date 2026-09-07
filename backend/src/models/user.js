@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const {
   uniqueNamesGenerator,
   adjectives,
   colors,
   animals,
-} = require("unique-names-generator");
+} = require('unique-names-generator');
 const generateRandomUsername = uniqueNamesGenerator({
   dictionaries: [adjectives, colors, animals],
-  separator: "-",
-  style: "lowerCase",
+  separator: '-',
+  style: 'lowerCase',
   length: 3,
 });
 // e.g. "quiet-yellow-falcon"
 
-const userSchema = new mongoose.Schema(
+const learnerSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -44,25 +44,19 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-userSchema.methods.comparePassword = function comparePassword(candidate) {
+learnerSchema.methods.comparePassword = function comparePassword(candidate) {
   return bcrypt.compare(candidate, this.passwordHash);
 };
 
-userSchema.statics.hashPassword = function hashPassword(plain) {
+learnerSchema.statics.hashPassword = function hashPassword(plain) {
   return bcrypt.hash(plain, 10);
 };
 
-userSchema.methods.toJSON = function toJSON() {
+learnerSchema.methods.toJSON = function toJSON() {
   const obj = this.toObject();
   delete obj.passwordHash;
   delete obj.__v;
   return obj;
 };
 
-const countrySchema = new Schema({
-  name: {type: String, required: true}
-});
-
-module.exports = mongoose.model("User", userSchema);
-module.exports = mongoose.model("Country", countrySchema);
-
+module.exports = mongoose.model('Learner', learnerSchema);

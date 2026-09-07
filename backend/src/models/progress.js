@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
-const PROGRESS_STATES = ["not-started", "in-progress", "completed"];
-const ITEM_TYPES = ["lesson", "lab"];
+const PROGRESS_STATES = ['not-started', 'in-progress', 'completed'];
+const ITEM_TYPES = ['lesson', 'lab'];
 const ResponseSchema = new Schema(
   {
     itemId: { type: Schema.Types.ObjectId, required: true }, // _id of the interactive_section entry
@@ -13,11 +13,11 @@ const ResponseSchema = new Schema(
 );
 
 const ProgressSchema = new Schema({
-  learner: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  module: { type: Schema.Types.ObjectId, ref: "Module", required: true },
+  learner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  module: { type: Schema.Types.ObjectId, ref: 'Module', required: true },
   itemId: { type: Schema.Types.ObjectId, required: true },
   itemType: { type: String, enum: ITEM_TYPES, required: true },
-  state: { type: String, enum: PROGRESS_STATES, default: "not-started" },
+  state: { type: String, enum: PROGRESS_STATES, default: 'not-started' },
   responses: [ResponseSchema],
   startedAt: Date,
   completedAt: Date,
@@ -25,4 +25,4 @@ const ProgressSchema = new Schema({
 
 ProgressSchema.index({ learner: 1, itemId: 1 }, { unique: true });
 
-module.exports = model("Progress", ProgressSchema);
+module.exports = model('Progress', ProgressSchema);
