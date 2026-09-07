@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { uniqueNamesGenerator, adjectives, colors, animals, NumberDictionary } = requ
+const generateRandomUsername = uniqueNamesGenerator({
+  dictionaries: [adjectives,colors, animals],
+  separator: '-',
+  style: 'lowerCase',
+  length: 3,
+});
+// e.g. "quiet-yellow-falcon"
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,6 +18,13 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      default: generateRandomUsername,
+    },
     displayName: {
       type: String,
       required: true,
@@ -18,12 +33,6 @@ const userSchema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      enum: ["LEAD", "MEMBER"],
-      default: "MEMBER",
       required: true,
     },
   },
@@ -44,5 +53,7 @@ userSchema.methods.toJSON = function toJSON() {
   delete obj.__v;
   return obj;
 };
+
+const progress = use
 
 module.exports = mongoose.model("User", userSchema);
