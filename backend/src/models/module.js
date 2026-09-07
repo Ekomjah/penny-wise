@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 const LESSON_STATES = ["draft", "published", "archived"];
 
 const InteractiveSectionWithinLessonSchema = new mongoose.Schema({
@@ -7,22 +8,24 @@ const InteractiveSectionWithinLessonSchema = new mongoose.Schema({
   answer: { type: String, required: true },
 });
 
-const LessonSchema = new mongoose.Schema({
+const LessonSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   state: { type: String, enum: LESSON_STATES, default: "draft" },
   interactive_section: {
     type: [InteractiveSectionWithinLessonSchema],
-    default: null,
   },
 });
 
-const SpendLabSchema = new mongoose.Schema({
+const LabSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
+  intro: { type: String, required: true },  
+  state: { type: String, enum: LESSON_STATES, default: "draft" },
 });
 
-const ModuleSchema = new mongoose.Schema({
+const ModuleSchema = new Schema({
   lessons: [LessonSchema],
-  spendLabs: [SpendLabSchema],
+  labs: [SpendLabSchema],
 });
+
