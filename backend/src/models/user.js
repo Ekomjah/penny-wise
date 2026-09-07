@@ -59,4 +59,10 @@ userSchema.methods.toJSON = function toJSON() {
   return obj;
 };
 
+const countrySchema = new Schema({
+  name: {type: String, required: true}
+});
+
 module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Country", countrySchema);
+

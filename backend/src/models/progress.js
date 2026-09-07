@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
-const User = require("./user");
-const Module = require("./module");
 
 const PROGRESS_STATES = ["not-started", "in-progress", "completed"];
 const ITEM_TYPES = ["lesson", "lab"];
