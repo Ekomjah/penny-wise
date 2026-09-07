@@ -5,11 +5,14 @@ const Module = require("./module");
 
 const PROGRESS_STATES = ["not-started", "in-progress", "completed"];
 const ITEM_TYPES = ["lesson", "lab"];
-const ResponseSchema = new Schema({
-  itemId: { type: Schema.Types.ObjectId, required: true }, // _id of the interactive_section entry
-  submitted: { type: String, required: true },
-  isCorrect: { type: Boolean, required: true },
-}, { _id: false });
+const ResponseSchema = new Schema(
+  {
+    itemId: { type: Schema.Types.ObjectId, required: true }, // _id of the interactive_section entry
+    submitted: { type: String, required: true },
+    isCorrect: { type: Boolean, required: true },
+  },
+  { _id: false },
+);
 
 const ProgressSchema = new Schema({
   learner: { type: Schema.Types.ObjectId, ref: "User", required: true },

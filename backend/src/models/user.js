@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const { uniqueNamesGenerator, adjectives, colors, animals, NumberDictionary } = requ
+const {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} = require("unique-names-generator");
 const generateRandomUsername = uniqueNamesGenerator({
-  dictionaries: [adjectives,colors, animals],
-  separator: '-',
-  style: 'lowerCase',
+  dictionaries: [adjectives, colors, animals],
+  separator: "-",
+  style: "lowerCase",
   length: 3,
 });
 // e.g. "quiet-yellow-falcon"
