@@ -54,6 +54,4 @@ userSchema.methods.toJSON = function toJSON() {
   return obj;
 };
 
-const progress = use
-
 module.exports = mongoose.model("User", userSchema);

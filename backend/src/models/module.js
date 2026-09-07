@@ -20,12 +20,13 @@ const LessonSchema = new Schema({
 const LabSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  intro: { type: String, required: true },  
+  intro: { type: String, required: true },
   state: { type: String, enum: LESSON_STATES, default: "draft" },
 });
 
 const ModuleSchema = new Schema({
   lessons: [LessonSchema],
-  labs: [SpendLabSchema],
+  labs: [LabSchema],
 });
 
+module.exports = model("Module", ModuleSchema);
