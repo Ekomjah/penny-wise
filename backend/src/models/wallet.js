@@ -11,6 +11,7 @@ const WalletSchema = new Schema({
   total: {
     type: Number,
     required: true,
+    min: 0,
   },
   country: {
     type: Schema.Types.ObjectId,
