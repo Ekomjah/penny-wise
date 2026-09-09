@@ -50,6 +50,15 @@ const moneySchema = new Schema({
   },
 });
 
+const countrySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  }
+});
+
 const Country = model('Country', countrySchema);
 const Money = model('Money', moneySchema);
 const Wallet = model('Wallet', WalletSchema);
