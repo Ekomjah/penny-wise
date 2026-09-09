@@ -7,7 +7,7 @@ const countrySchema = new Schema({
     required: true,
     unique: true,
     trim: true,
-  }
+  },
 });
 
 module.exports = model('Country', countrySchema);
