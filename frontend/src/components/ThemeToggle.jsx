@@ -6,13 +6,31 @@ export default function ThemeToggle() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <button
-      onClick={toggleTheme}
-      title={
-        theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
-      }
-    >
-      {theme === 'dark' ? <Sun /> : <Moon />}
-    </button>
-  );
+  <button
+    onClick={toggleTheme}
+    title={
+      theme === 'dark'
+        ? 'Switch to light theme'
+        : 'Switch to dark theme'
+    }
+    className="relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+  >
+    <Sun
+      size={20}
+      className={`absolute transition-all duration-300 ${
+        theme === 'dark'
+          ? 'rotate-90 scale-0'
+          : 'rotate-0 scale-100'
+      }`}
+    />
+
+    <Moon
+      size={20}
+      className={`absolute transition-all duration-300 ${
+        theme === 'dark'
+          ? 'rotate-0 scale-100'
+          : '-rotate-90 scale-0'
+      }`}
+    />
+  </button>)
 }
