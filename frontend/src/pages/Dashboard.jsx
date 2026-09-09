@@ -50,6 +50,7 @@ const Dashboard = () => {
   return (
     <>
       <main className="p-4 max-w-7xl mx-auto text-left bg-[var(--bg)] grid gap-4 md:gap-8 auto-cols-fr rows-3">
+        
         <section className="dashboardHero">
           <div>
             <h3 className="text-sm text-gray-600">Learning Hub</h3>
@@ -83,35 +84,31 @@ const Dashboard = () => {
         </section>
 
         <section className="exploreTopics">
-          <div className="flex justify-between items-center">
-            <h2>Explore topics</h2>
-            <p className="text-sm text-gray-600 cursor-pointer hover:underline">
-              view all {TOPIC_AMOUNT} →
-            </p>
-          </div>
-          <div className="topicCards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-            {topics &&
-              topics.map((topic) => {
-                return (
-                  <Link key={topic.id} to={`/course`}>
-                    <div className="topicCard p-6 m-2 rounded shadow-md text-left bg-[var(--accent-bg)] hover:shadow-lg transition-shadow duration-300 cursor-pointer hover:scale-105">
-                      <img
-                        src={topic.icon}
-                        alt={topic.name}
-                        className="w-12 h-12 mb-2"
-                      />
-                      <h2 className="text-lg font-bold">{topic.name}</h2>
-                      <p className="text-sm text-gray-600">
-                        {topic.description}
-                      </p>
-                      <p className="font-bold">
-                        {topic.lesson_count} lessons →
-                      </p>
-                    </div>
-                  </Link>
-                );
-              })}
-          </div>
+            <div className="flex justify-between items-center">
+                <h2>Explore topics</h2>
+                <Link
+                to="/modules"
+                className="text-sm text-gray-600 cursor-pointer hover:underline">view all {TOPIC_AMOUNT} →
+                </Link>
+            </div>
+            <div className="topicCards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+                {
+                    topics && (
+                        topics.map((topic) => {
+                            return (
+                                <Link key={topic.id} to={`/course`}>
+                                    <div className="topicCard p-6 m-2 rounded shadow-md text-left bg-[var(--accent-bg)] hover:shadow-lg transition-shadow duration-300 cursor-pointer hover:scale-105">
+                                        <img src={topic.icon} alt={topic.name} className="w-12 h-12 mb-2" />
+                                        <h2 className="text-lg font-bold">{topic.name}</h2>
+                                        <p className="text-sm text-gray-600">{topic.description}</p>
+                                        <p className="font-bold">{topic.lesson_count} lessons →</p>
+                                    </div>
+                                </Link>
+                            );
+                        })
+                    )
+                }
+            </div>
         </section>
       </main>
 
