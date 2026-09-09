@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 export default function NavBar() {
   return (
+    
     <nav className="navbar grid grid-cols-3 p-4">
 
       <Link to="/" className="col-span-1 text-left">Home</Link>
@@ -11,6 +13,7 @@ export default function NavBar() {
         <Link to="/signup">Sign Up</Link>
         <Link to="/login">Log In</Link>
       </div>
+      <ThemeToggle />
     </nav>
   );
 };
