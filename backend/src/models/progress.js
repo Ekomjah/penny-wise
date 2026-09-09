@@ -13,7 +13,7 @@ const ResponseSchema = new Schema(
 );
 
 const ProgressSchema = new Schema({
-  learner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  learner: { type: Schema.Types.ObjectId, ref: 'Learner', required: true },
   module: { type: Schema.Types.ObjectId, ref: 'Module', required: true },
   itemId: { type: Schema.Types.ObjectId, required: true },
   itemType: { type: String, enum: ITEM_TYPES, required: true },

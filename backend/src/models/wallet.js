@@ -29,37 +29,4 @@ const WalletSchema = new Schema({
   },
 });
 
-const moneySchema = new Schema({
-  name: { type: String, required: true, default: 'United States Dollar' },
-  coins: [
-    {
-      value: { type: Number, required: true },
-      image: { type: String, required: true },
-    },
-  ],
-  notes: [
-    {
-      value: { type: Number, required: true },
-      image: { type: String, required: true },
-    },
-  ],
-  country: {
-    type: Schema.Types.ObjectId,
-    ref: 'Country',
-    required: true,
-  },
-});
-
-const countrySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  }
-});
-
-const Country = model('Country', countrySchema);
-const Money = model('Money', moneySchema);
-const Wallet = model('Wallet', WalletSchema);
-module.exports = { Wallet, Country, Money };
+module.exports = model('Wallet', WalletSchema);
