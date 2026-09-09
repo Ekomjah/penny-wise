@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import LandingPage from './pages/LandingPage';
 import ProfilePage from './pages/ProfilePage';
@@ -9,7 +9,7 @@ import CoursePage from './pages/CoursePage';
 import './App.css';
 
 function App() {
-return (
+  return (
     <Router>
       <NavBar />
       <Routes>

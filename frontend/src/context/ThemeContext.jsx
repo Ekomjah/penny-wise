@@ -12,15 +12,11 @@ export function ThemeProvider({ children }) {
       '(prefers-color-scheme: dark)',
     ).matches;
 
-    const initialTheme =
-      storedTheme || (prefersDark ? 'dark' : 'light');
+    const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
 
     setTheme(initialTheme);
 
-    document.documentElement.classList.toggle(
-      'dark',
-      initialTheme === 'dark',
-    );
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
   }, []);
 
   const toggleTheme = () => {
@@ -29,10 +25,7 @@ export function ThemeProvider({ children }) {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
 
-    document.documentElement.classList.toggle(
-      'dark',
-      newTheme === 'dark',
-    );
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
   return (

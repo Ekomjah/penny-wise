@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
     checkbox: false,
   });
 
@@ -13,14 +13,13 @@ const LoginPage = () => {
 
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
-  const submit = (e) =>{
+  const submit = (e) => {
     e.preventDefault();
-  }
-
+  };
 
   return (
     <>
@@ -72,7 +71,7 @@ const LoginPage = () => {
           onChange={handleChange}
           required
         />
-       <button type="submit">Log In</button>
+        <button type="submit">Log In</button>
       </form>
     </>
   );

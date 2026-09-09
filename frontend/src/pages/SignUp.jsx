@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    checkpassword: "",
+    username: '',
+    email: '',
+    password: '',
+    checkpassword: '',
     checkbox: false,
   });
   const handleChange = (e) => {
@@ -13,7 +13,7 @@ const SignUp = () => {
 
     let newValue;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       newValue = checked;
     } else {
       newValue = value;
@@ -25,10 +25,10 @@ const SignUp = () => {
     });
   };
   let submit = (e) => {
-      e.preventDefault();
-      if (formData.password !== formData.checkpassword) {
-          return; // surface an error and return early
-      } 
+    e.preventDefault();
+    if (formData.password !== formData.checkpassword) {
+      return; // surface an error and return early
+    }
   };
 
   return (
@@ -80,10 +80,10 @@ const SignUp = () => {
           required
         />
 
-      {formData.password !== "" &&
-      formData.password !== formData.checkpassword && (
-          <p>Passwords do not match</p>
-        )}
+        {formData.password !== '' &&
+          formData.password !== formData.checkpassword && (
+            <p>Passwords do not match</p>
+          )}
 
         <label htmlFor="checkbox">CheckBox</label>
         <input
