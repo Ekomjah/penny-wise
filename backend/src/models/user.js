@@ -6,7 +6,7 @@ const {
   colors,
   animals,
 } = require('unique-names-generator');
-const generateRandomUsernameConfig ={
+const generateRandomUsernameConfig = {
   dictionaries: [adjectives, colors, animals],
   separator: '-',
   style: 'lowerCase',

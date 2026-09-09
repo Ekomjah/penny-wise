@@ -50,11 +50,7 @@ const moneySchema = new Schema({
   },
 });
 
-const countrySchema = new Schema({
-  name: { type: String, required: true },
-  money: { type: String, required: true },
-});
-
-module.exports = model('Country', countrySchema);
-module.exports = model('Wallet', WalletSchema);
-module.exports = model('Money', moneySchema);
+const Country = model('Country', countrySchema);
+const Money = model('Money', moneySchema);
+const Wallet = model('Wallet', WalletSchema);
+module.exports = { Wallet, Country, Money };
