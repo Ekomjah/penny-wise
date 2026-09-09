@@ -6,12 +6,12 @@ const {
   colors,
   animals,
 } = require('unique-names-generator');
-const generateRandomUsername = uniqueNamesGenerator({
+const generateRandomUsernameConfig ={
   dictionaries: [adjectives, colors, animals],
   separator: '-',
   style: 'lowerCase',
   length: 3,
-});
+};
 // e.g. "quiet-yellow-falcon"
 
 const learnerSchema = new mongoose.Schema(
@@ -28,7 +28,7 @@ const learnerSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      default: generateRandomUsername,
+      default: () => uniqueNamesGenerator(generateRandomUsernameConfig),
     },
     displayName: {
       type: String,

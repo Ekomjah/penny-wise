@@ -5,7 +5,7 @@ const PROGRESS_STATES = ['not-started', 'in-progress', 'completed'];
 const ITEM_TYPES = ['lesson', 'lab'];
 const ResponseSchema = new Schema(
   {
-    itemId: { type: Schema.Types.ObjectId, required: true }, // _id of the interactive_section entry
+    sectionId: { type: Schema.Types.ObjectId, required: true }, // _id of the interactive_section entry
     submitted: { type: String, required: true },
     isCorrect: { type: Boolean, required: true },
   },
