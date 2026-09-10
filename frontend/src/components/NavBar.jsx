@@ -6,17 +6,17 @@ import { CircleUser, House } from 'lucide-react';
 
 export default function NavBar() {
   return (
-    <nav className="navbar sticky top-2 mt-2 py-4 rounded-full w-full px-6 grid grid-cols-3 items-center justify-between z-20 bg-[var(--nav-bg)] text-[var(--text)] border border-[var(--nav-border)] shadow-[var(--nav-shadow)] transition-all">
-      <Link to="/">
+    <nav className="navbar sticky top-2 mt-2 py-4 rounded-full w-full px-6 grid grid-cols-3 items-center justify-between z-20 bg-[var(--nav-bg)] text-[var(--text)] border border-[var(--nav-border)] shadow-[var(--nav-shadow)] backdrop-blur-md backdrop-saturate-150 transition-all">
+      <Link to="/" className="relative">
         <button className="w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800">
           <House />
         </button>
       </Link>
-      <Link to="/dashboard" className="text-xl font-bold justify-self-center">
+      <Link to="/dashboard" className="text-xl font-bold justify-self-center relative">
         <img src={Dollar} alt="$" className="w-10 h-10 inline-block" />
         <span className="ml-2">Penny Wise</span>
       </Link>
-      <div className="flex gap-4 items-center justify-end">
+      <div className="flex gap-4 items-center justify-end relative">
         <ThemeToggle />
         <Link to="/profile"><CircleUser/></Link>
         <Link to="/signup">
