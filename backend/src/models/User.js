@@ -53,8 +53,10 @@ const userSchema = new mongoose.Schema(
       min: 0
     },
     country: {
-      type: String,
-      default: "USA"
+      type: Schema.Types.ObjectId,
+      ref: 'Country',
+      required: true,
+      default: "USA",
     }
   }, { timestamps: true }
 )
@@ -77,4 +79,3 @@ userSchema.methods.toJSON = function toJSON() {
 };
 
 module.exports = mongoose.model('User', userSchema)
-
