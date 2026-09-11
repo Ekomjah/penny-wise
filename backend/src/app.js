@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const Module = require('./models/module');
 
 function createApp() {
   const app = express();
@@ -14,6 +15,15 @@ function createApp() {
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
+  });
+
+  app.get('/api/modules', async (req, res, next) => {
+    try {
+      const modules = await Module.find({}).sort({ _id: 1 }).lean();
+      res.json({ modules });
+    } catch (err) {
+      next(err);
+    }
   });
 
   app.use((req, res) => {

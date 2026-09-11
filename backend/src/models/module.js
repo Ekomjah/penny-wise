@@ -38,6 +38,9 @@ const LabSchema = new Schema({
 });
 
 const ModuleSchema = new Schema({
+  name: { type: String },
+  description: { type: String },
+  icon: { type: String },
   lessons: [LessonSchema],
   labs: [LabSchema],
 });
