@@ -31,22 +31,20 @@ const authorSchema = new mongoose.Schema(
   }, { timestamps: true }
 )
 
-// TOOK THESE FROM PULSEBOARD
-// DON'T KNOW WHAT WE'RE DOING FOR AUTHENTICATION
-userSchema.methods.comparePassword = function comparePassword(candidate) {
+authorSchema.methods.comparePassword = function comparePassword(candidate) {
   return bcrypt.compare(candidate, this.passwordHash);
 };
 
-userSchema.statics.hashPassword = function hashPassword(plain) {
+authorSchema.statics.hashPassword = function hashPassword(plain) {
   return bcrypt.hash(plain, 10);
 };
 
-userSchema.methods.toJSON = function toJSON() {
+authorSchema.methods.toJSON = function toJSON() {
   const obj = this.toObject();
   delete obj.passwordHash;
   delete obj.__v;
   return obj;
 };
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Author', authorSchema)
 
