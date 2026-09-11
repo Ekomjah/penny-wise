@@ -311,16 +311,22 @@ async function seed({ mongoUri } = {}) {
   console.log(`  Progress: ${progressDocs.length} records`);
 
   await mongoose.connection.close();
-  return { country, money, learner, modules, walletCount: 2, progressCount: progressDocs.length };
-};
+  return {
+    country,
+    money,
+    learner,
+    modules,
+    walletCount: 2,
+    progressCount: progressDocs.length,
+  };
+}
 
 module.exports = { seed, DEMO_EMAIL, DEMO_PASSWORD };
 
 if (require.main === module) {
   const { MONGODB_URI } = process.env;
-  seed({ mongoUri: MONGODB_URI })
-    .catch((err) => {
-      console.error('Seed failed:', err);
-      process.exit(1);
-    });
+  seed({ mongoUri: MONGODB_URI }).catch((err) => {
+    console.error('Seed failed:', err);
+    process.exit(1);
+  });
 }
