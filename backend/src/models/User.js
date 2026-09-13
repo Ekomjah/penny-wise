@@ -56,7 +56,6 @@ const userSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Country',
       required: true,
-      default: "USA",
     }
   }, { timestamps: true }
 )
