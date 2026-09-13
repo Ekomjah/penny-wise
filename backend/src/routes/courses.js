@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const courses = await Course.find({})
+    const courses = await Course.find({ published: true })
       .populate({ path: 'lessons', populate: { path: 'pages' } })
       .lean();
     res.json({ courses });
