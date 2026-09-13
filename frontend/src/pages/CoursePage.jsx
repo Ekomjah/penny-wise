@@ -1,5 +1,3 @@
-import React from 'react';
-
 const this_course = {
   id: 1,
   name: 'Money Basics',
@@ -47,10 +45,10 @@ const this_course = {
 const CoursePage = () => {
   return (
     <>
-      <main className="p-4 max-w-7xl mx-auto text-left bg-[var(--bg)] flex flex-col gap-4 md:gap-8">
-        <section className="courseTitle">
+      <main className='p-4 max-w-7xl mx-auto text-left bg-[var(--bg)] flex flex-col gap-4 md:gap-8'>
+        <section className='courseTitle'>
           <div>
-            <h3 className="text-sm text-gray-600">
+            <h3 className='text-sm text-gray-600'>
               Course #{this_course.id.toString().padStart(4, '0')}
             </h3>
             <h1>{this_course.name}</h1>
@@ -58,26 +56,26 @@ const CoursePage = () => {
           </div>
         </section>
 
-        <section className="lessonSelection">
-          <div className="flex justify-between items-center">
+        <section className='lessonSelection'>
+          <div className='flex justify-between items-center'>
             <h2>Lessons</h2>
-            <p className="text-sm text-gray-600 cursor-pointer hover:underline">
+            <p className='text-sm text-gray-600 cursor-pointer hover:underline'>
               view all {this_course.lessons?.length || 0} →
             </p>
           </div>
-          <div className="lessonCards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+          <div className='lessonCards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
             {this_course.lessons &&
               this_course.lessons.map((lesson) => {
                 return (
                   <div
                     key={lesson.id}
-                    className="lessonCard p-6 m-2 rounded shadow-md text-left bg-[var(--accent-bg)] hover:shadow-lg transition-shadow duration-300 cursor-pointer hover:scale-105"
+                    className='lessonCard p-6 m-2 rounded shadow-md text-left bg-[var(--accent-bg)] hover:shadow-lg transition-shadow duration-300 cursor-pointer hover:scale-105'
                   >
-                    <h2 className="text-lg font-bold">{lesson.title}</h2>
-                    <p className="text-sm text-gray-600">
+                    <h2 className='text-lg font-bold'>{lesson.title}</h2>
+                    <p className='text-sm text-gray-600'>
                       {lesson.description}
                     </p>
-                    <p className="font-bold">{lesson.duration} minutes →</p>
+                    <p className='font-bold'>{lesson.duration} minutes →</p>
                   </div>
                 );
               })}

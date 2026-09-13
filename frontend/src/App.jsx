@@ -14,14 +14,14 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/course" element={<CoursePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/modules" element={<ModulesPage />} />
-        <Route path="*" element={<div>Page Not Found</div>} />
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/course' element={<CoursePage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/modules' element={<ModulesPage />} />
+        <Route path='*' element={<div>Page Not Found</div>} />
       </Routes>
     </Router>
   );
