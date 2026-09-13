@@ -1,5 +1,3 @@
-import React from 'react';
-
 const user = {
   display_name: 'Nicholas Lee',
   username: 'nickmeister123',
@@ -34,16 +32,16 @@ const ProfilePage = () => {
       {/*This is where NavBar is going to be
       with the Header and the NavLinks for Sign-up and Log-in*/}
       <main>
-        <section className="profileContent">
-          <div className="profilePictureHolder"></div>
-          <div className="userInfo">
+        <section className='profileContent'>
+          <div className='profilePictureHolder'></div>
+          <div className='userInfo'>
             <h1>{user.display_name}</h1>
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
         </section>
 
-        <section className="levelBanner">
+        <section className='levelBanner'>
           <h3>LEVEL {user.level}</h3>
           <p>{levelTitlePicker(user.level)}</p>
         </section>
