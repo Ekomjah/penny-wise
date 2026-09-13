@@ -6,7 +6,7 @@ const Money = require('../src/models/money');
 const User = require('../src/models/User');
 const Course = require('../src/models/Course');
 const Lesson = require('../src/models/Lesson');
-const Page = require('../src/models/Page');
+const { Page } = require('../src/models/Page');
 const Wallet = require('../src/models/wallet');
 
 const DEMO_PASSWORD = 'PennyWise-123';
@@ -63,7 +63,10 @@ const SEED_COURSES = [
             type: 'multiple_choice',
             text: 'Money is best described as...',
             options: [
-              { answerText: 'A way to trade value with others', isCorrect: true },
+              {
+                answerText: 'A way to trade value with others',
+                isCorrect: true,
+              },
               { answerText: 'Something only adults can use', isCorrect: false },
               { answerText: 'A card you wave at the shop', isCorrect: false },
             ],
@@ -90,8 +93,7 @@ const SEED_COURSES = [
       },
       {
         name: 'Coins & Notes',
-        description:
-          'Identify each coin and note by its value and name.',
+        description: 'Identify each coin and note by its value and name.',
         estimatedDurationOfCompletionInMinutes: 12,
         experience: 10,
         pages: [
@@ -266,7 +268,10 @@ const SEED_COURSES = [
             type: 'multiple_choice',
             text: 'What is the best move when your target savings is reached early?',
             options: [
-              { answerText: 'Save the extra for a bigger goal', isCorrect: true },
+              {
+                answerText: 'Save the extra for a bigger goal',
+                isCorrect: true,
+              },
               { answerText: 'Spend everything right away', isCorrect: false },
               { answerText: 'Give it all away immediately', isCorrect: false },
             ],
