@@ -8,8 +8,11 @@ import { CircleUser, House, Menu } from 'lucide-react';
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dollarLoaded, setDollarLoaded] = useState(false);
+  const [dollarFailed, setDollarFailed] = useState(false);
+  const showDollarFallback = dollarFailed || !dollarLoaded;
   return (
-    <nav className='navbar fixed top-0 left-0 right-0 py-4 w-full px-6 flex items-center justify-between z-20 bg-[var(--nav-bg)] text-[var(--text)] border-b border-[var(--nav-border)] shadow-[var(--nav-shadow)] backdrop-blur-md backdrop-saturate-150 transition-all'>
+    <nav className='navbar fixed top-0 left-0 right-0 py-4 md:rounded-full md:mt-2 max-w-4xl mx-auto w-full px-6 flex items-center justify-between z-20 bg-[var(--nav-bg)] text-[var(--text)] border-b border-[var(--nav-border)] shadow-[var(--nav-shadow)] backdrop-blur-md backdrop-saturate-150 transition-all'>
       <Link to='/' className='relative'>
         <button className='w-9 h-9 flex items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-90'>
           <House />
@@ -17,10 +20,28 @@ export default function NavBar() {
       </Link>
       <Link
         to='/dashboard'
-        className='text-xl font-bold justify-self-center relative'
+        className='text-xl font-bold flex items-center justify-center gap-2 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap'
       >
-        <img src={Dollar} alt='$' className='w-10 h-10 inline-block' />
-        <span className='ml-2'>Penny Wise</span>
+        {showDollarFallback && (
+          <span
+            aria-hidden='true'
+            className='flex w-10 h-10 items-center justify-center text-2xl font-black leading-none'
+          >
+            $
+          </span>
+        )}
+        {!dollarFailed && (
+          <img
+            src={Dollar}
+            alt='$'
+            onLoad={() => setDollarLoaded(true)}
+            onError={() => setDollarFailed(true)}
+            className={
+              showDollarFallback ? 'hidden' : 'w-10 h-10 object-contain'
+            }
+          />
+        )}
+        <span className='leading-none'>Penny Wise</span>
       </Link>
       <div className='md:flex hidden gap-4 items-center justify-end relative'>
         <MenuElements />
