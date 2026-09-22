@@ -84,7 +84,15 @@ function MenuElements({ onNavigate }) {
             className='flex items-center max-md:w-full max-md:gap-2 max-md:rounded-lg max-md:px-3 max-md:py-2 max-md:hover:bg-gray-100 max-md:dark:hover:bg-gray-800'
           >
             <span className='flex h-9 w-9 items-center justify-center'>
-              <CircleUser />
+              {auth.user.avatar ? (
+                <img
+                  src={auth.user.avatar}
+                  alt='avatar'
+                  className='rounded-full w-6'
+                />
+              ) : (
+                <CircleUser />
+              )}
             </span>
             <span className='hidden text-sm max-md:inline'>Profile</span>
           </Link>
