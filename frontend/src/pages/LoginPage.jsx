@@ -40,7 +40,7 @@ const LoginPage = () => {
       setStatus({
         state: 'error',
         message:
-          error ||
+          error?.error ||
           'An error occurred while logging in. Please check your credentials and try again.',
       });
       console.error('Error logging in:', error);

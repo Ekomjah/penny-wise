@@ -44,7 +44,7 @@ const SignUp = () => {
       setStatus({
         state: 'error',
         message:
-          error ||
+          error?.error ||
           'An error occurred while creating your account. Please try again.',
       });
       console.error('Error creating account:', error);
