@@ -9,8 +9,10 @@ import AuthSplit, {
 import Hero from '../assets/illustrations/svg/4 - BUDGETTING.svg';
 import Faint from '../assets/illustrations/svg/6 - FINANCES.svg';
 import { loginUser } from '../lib/api/penny-wise';
+import { useAuth } from '../lib/useAuth';
 
 const LoginPage = () => {
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
@@ -25,11 +27,12 @@ const LoginPage = () => {
       if (loading) return;
       setStatus({ state: 'loading', message: 'Signing you in…' });
       const data = await loginUser({ email, password });
-      localStorage.setItem('token', data.token);
+      signIn({ token: data.token, user: data.user });
       setStatus({
         state: 'success',
         message: 'Logged in successfully! Redirecting…',
       });
+
       setTimeout(() => {
         window.location.href = '/dashboard';
       }, 2000);

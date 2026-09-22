@@ -32,15 +32,14 @@ const SignUp = () => {
         return;
       }
       setStatus({ state: 'loading', message: 'Creating your account…' });
-      await registerUser({ displayName, email, password }).then(() => {
-        setStatus({
-          state: 'success',
-          message: 'Account created successfully! Redirecting to login…',
-        });
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 2000);
+      await registerUser({ displayName, email, password });
+      setStatus({
+        state: 'success',
+        message: 'Account created successfully! Redirecting to login…',
       });
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
     } catch (error) {
       setStatus({
         state: 'error',
