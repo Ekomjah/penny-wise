@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import AuthSplit, {
@@ -8,6 +8,7 @@ import AuthSplit, {
 } from '../components/AuthSplit';
 import Hero from '../assets/illustrations/svg/4 - BUDGETTING.svg';
 import Faint from '../assets/illustrations/svg/6 - FINANCES.svg';
+import { loginUser } from '../lib/api/penny-wise';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -15,36 +16,32 @@ const LoginPage = () => {
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState(null);
-  const timer = useRef(null);
-
-  useEffect(() => () => clearTimeout(timer.current), []);
 
   const loading = status?.state === 'loading';
 
-  const submit = (e) => {
-    e.preventDefault();
-    if (loading) return;
-    setStatus({ state: 'loading', message: 'Signing you in…' });
-    timer.current = setTimeout(() => {
+  const submit = async (e) => {
+    try {
+      e.preventDefault();
+      if (loading) return;
+      setStatus({ state: 'loading', message: 'Signing you in…' });
+      const data = await loginUser({ email, password });
+      localStorage.setItem('token', data.token);
       setStatus({
         state: 'success',
-        message: 'Welcome back! You are now signed in.',
+        message: 'Logged in successfully! Redirecting…',
       });
-    }, 900);
-  };
-
-  const forgotPassword = () => {
-    setStatus(
-      email.trim()
-        ? {
-            state: 'info',
-            message: `Password reset link sent to ${email.trim()}.`,
-          }
-        : {
-            state: 'info',
-            message: 'Enter your email above, then try again.',
-          },
-    );
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 2000);
+    } catch (error) {
+      setStatus({
+        state: 'error',
+        message:
+          error ||
+          'An error occurred while logging in. Please check your credentials and try again.',
+      });
+      console.error('Error logging in:', error);
+    }
   };
 
   return (
@@ -123,13 +120,6 @@ const LoginPage = () => {
             />
             Remember me
           </label>
-          <button
-            type='button'
-            onClick={forgotPassword}
-            className='font-medium text-[var(--accent)] hover:underline'
-          >
-            Forgot password?
-          </button>
         </div>
 
         <SubmitButton loading={loading}>
