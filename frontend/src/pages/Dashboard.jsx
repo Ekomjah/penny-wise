@@ -146,7 +146,7 @@ export default function Dashboard() {
           <button
             type='button'
             onClick={retry}
-            className='inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-current px-4 py-2 text-sm font-semibold transition hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current dark:hover:bg-white/10'
+            className='inline-flex shrink-0 items-center justify-center gap-2 border border-current px-4 py-2 text-sm font-semibold transition hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current dark:hover:bg-white/10'
           >
             <RefreshCw aria-hidden='true' size={16} />
             Try again
@@ -188,7 +188,7 @@ export default function Dashboard() {
                 </div>
                 <Link
                   to={resumeLink}
-                  className='inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+                  className='inline-flex shrink-0 items-center justify-center gap-2 bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
                 >
                   Resume lesson
                   <ArrowRight aria-hidden='true' size={17} />
@@ -206,7 +206,7 @@ export default function Dashboard() {
                 </p>
                 <Link
                   to='/courses'
-                  className='mt-5 inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+                  className='mt-5 inline-flex items-center gap-2 bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
                 >
                   Browse courses
                   <ArrowRight aria-hidden='true' size={16} />

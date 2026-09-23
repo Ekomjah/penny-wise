@@ -66,7 +66,7 @@ const ProfilePage = () => {
           </p>
           <Link
             to='/login'
-            className='mt-4 inline-block rounded-lg bg-[var(--accent-bold)] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 active:scale-[0.99]'
+            className='mt-4 inline-block bg-[var(--accent-bold)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] active:scale-[0.99]'
           >
             Go to Log in
           </Link>
@@ -428,7 +428,7 @@ const ProfileForm = ({ user, token }) => {
               <button
                 type='submit'
                 disabled={!dirty || Boolean(nameError)}
-                className='bg-[var(--accent-bold)] px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50'
+                className='bg-[var(--accent-bold)] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50'
               >
                 Save changes
               </button>

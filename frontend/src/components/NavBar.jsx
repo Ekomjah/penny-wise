@@ -129,14 +129,14 @@ function MobileMenuElements({ onNavigate }) {
             <Link
               to='/login'
               onClick={closeMenu}
-              className='rounded-xl border border-[var(--border)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+              className='border border-[var(--border)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
             >
               Log in
             </Link>
             <Link
               to='/signup'
               onClick={closeMenu}
-              className='rounded-xl bg-[var(--accent-bold)] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+              className='bg-[var(--accent-bold)] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
             >
               Sign up
             </Link>
@@ -211,13 +211,13 @@ function DesktopMenuElements() {
           <ThemeToggle className='h-10 w-10 shrink-0' />
           <Link
             to='/login'
-            className='flex h-10 items-center rounded-full px-3 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800'
+            className='flex h-10 items-center px-3 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800'
           >
             Log in
           </Link>
           <Link
             to='/signup'
-            className='flex h-10 items-center rounded-full bg-[var(--accent-bold)] px-4 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+            className='flex h-10 items-center bg-[var(--accent-bold)] px-4 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
           >
             Sign up
           </Link>

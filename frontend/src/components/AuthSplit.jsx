@@ -140,7 +140,7 @@ export function SubmitButton({ loading, children }) {
   }, []);
   return (
     <div ref={dropDownRef} className='relative'>
-      <div className='flex items-stretch bg-[var(--accent-bold)] text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70'>
+      <div className='flex items-stretch bg-[var(--accent-bold)] text-[15px] font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] active:scale-[0.99] disabled:cursor-wait disabled:opacity-70'>
         <button
           type='submit'
           disabled={loading}

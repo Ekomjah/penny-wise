@@ -116,14 +116,14 @@ export default function CoursePage() {
                 const controller = new AbortController();
                 loadCourse(controller.signal);
               }}
-              className='inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+              className='inline-flex items-center gap-2 bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
             >
               <RefreshCw aria-hidden='true' size={16} />
               Try again
             </button>
             <Link
               to='/courses'
-              className='inline-flex items-center gap-2 rounded-lg border border-[var(--border)] px-4 py-2.5 text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+              className='inline-flex items-center gap-2 border border-[var(--border)] px-4 py-2.5 text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
             >
               <ArrowLeft aria-hidden='true' size={16} />
               All courses
@@ -164,7 +164,7 @@ export default function CoursePage() {
         <Link
           to='/login'
           state={{ from: location }}
-          className='inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+          className='inline-flex items-center gap-2 bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
         >
           <LogIn aria-hidden='true' size={17} />
           Log in to enroll
@@ -187,7 +187,7 @@ export default function CoursePage() {
             type='button'
             onClick={handleEnroll}
             disabled={enrolling}
-            className='inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] disabled:cursor-wait disabled:opacity-60'
+            className='inline-flex items-center gap-2 bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] disabled:cursor-wait disabled:opacity-60'
           >
             {enrolling && (
               <LoaderCircle
@@ -222,7 +222,7 @@ export default function CoursePage() {
     return (
       <Link
         to={`/courses/${courseId}/lessons/${targetLessonId}`}
-        className='inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+        className='inline-flex items-center gap-2 bg-[var(--accent-bold)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
       >
         {completed ? 'Review course' : started ? 'Continue' : 'Start course'}
         <ArrowRight aria-hidden='true' size={17} />

@@ -99,7 +99,7 @@ export default function CourseCatalog() {
             <button
               type='button'
               onClick={retry}
-              className='mt-5 inline-flex items-center gap-2 rounded-lg bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+              className='mt-5 inline-flex items-center gap-2 bg-[var(--accent-bold)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent-bold-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
             >
               <RefreshCw aria-hidden='true' size={16} />
               Try again
