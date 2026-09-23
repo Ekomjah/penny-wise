@@ -1,47 +1,91 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { BookOpen, CircleUser, House, LogOut, Menu } from 'lucide-react';
 import Dollar from '../assets/dollar.png';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '../lib/useAuth';
 import { cn } from '../utils/utils';
 
-function MenuElements({ onNavigate = () => {} }) {
+const desktopLinkClass = ({ isActive }) =>
+  cn(
+    'flex h-10 items-center justify-center gap-2 rounded-full px-3 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800',
+    isActive && 'bg-[var(--accent-bg)] text-[var(--accent)]',
+  );
+
+const mobileLinkClass =
+  'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800';
+
+function Brand({
+  to,
+  dollarLoaded,
+  dollarFailed,
+  setDollarLoaded,
+  setDollarFailed,
+}) {
+  return (
+    <Link
+      to={to}
+      aria-label='Penny Wise home'
+      className='flex shrink-0 items-center gap-2 rounded-full pr-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]'
+    >
+      <span className='relative block h-9 w-9 shrink-0'>
+        <span
+          aria-hidden='true'
+          className='absolute inset-0 flex items-center justify-center text-xl font-black leading-none'
+        >
+          $
+        </span>
+        {!dollarFailed && (
+          <img
+            src={Dollar}
+            alt=''
+            width={36}
+            height={36}
+            decoding='async'
+            onLoad={() => setDollarLoaded(true)}
+            onError={() => setDollarFailed(true)}
+            className={cn(
+              'absolute inset-0 h-full w-full object-contain transition-opacity duration-200',
+              dollarLoaded ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+        )}
+      </span>
+      <span className='hidden text-lg font-bold leading-none text-[var(--text-h)] sm:inline'>
+        Penny Wise
+      </span>
+    </Link>
+  );
+}
+
+function MobileMenuElements({ onNavigate }) {
   const { auth, signOut } = useAuth();
   const navigate = useNavigate();
-  const closeMenu = () => onNavigate?.();
   const isLearner = auth?.user?.role === 'learner';
+  const closeMenu = () => onNavigate?.();
 
   return (
     <>
-      <ThemeToggle
-        label='Change Theme'
-        className='max-md:w-full max-md:justify-start max-md:gap-2 max-md:rounded-lg max-md:px-3 max-md:hover:bg-gray-100 max-md:dark:hover:bg-gray-800'
-      />
-      <Link
-        to='/courses'
-        onClick={closeMenu}
-        className='flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
-      >
-        <BookOpen aria-hidden='true' size={18} />
+      <NavLink to='/courses' onClick={closeMenu} className={mobileLinkClass}>
+        <BookOpen aria-hidden='true' size={19} />
         Courses
-      </Link>
+      </NavLink>
       {auth ? (
         <>
           {isLearner && (
-            <Link
+            <NavLink
               to='/dashboard'
               onClick={closeMenu}
-              className='flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
+              className={mobileLinkClass}
             >
-              <House aria-hidden='true' size={18} />
+              <House aria-hidden='true' size={19} />
               Dashboard
-            </Link>
+            </NavLink>
           )}
-          <Link
+          <NavLink
             to='/profile'
             onClick={closeMenu}
-            className='flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
+            className={mobileLinkClass}
           >
             <span className='flex h-7 w-7 items-center justify-center'>
               {auth.user?.avatar ? (
@@ -55,7 +99,12 @@ function MenuElements({ onNavigate = () => {} }) {
               )}
             </span>
             Profile
-          </Link>
+          </NavLink>
+          <ThemeToggle
+            label='Change theme'
+            labelClassName='text-sm'
+            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800'
+          />
           <button
             type='button'
             onClick={() => {
@@ -63,31 +112,118 @@ function MenuElements({ onNavigate = () => {} }) {
               navigate('/');
               closeMenu();
             }}
-            className='flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
+            className={`${mobileLinkClass} cursor-pointer`}
           >
-            <LogOut aria-hidden='true' size={18} />
-            Log Out
+            <LogOut aria-hidden='true' size={19} />
+            Log out
           </button>
         </>
       ) : (
         <>
-          <Link
-            to='/signup'
-            onClick={closeMenu}
-            className='rounded-lg bg-[var(--accent-bold)] px-4 py-2 text-center text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
-          >
-            Sign Up
-          </Link>
-          <Link
-            to='/login'
-            onClick={closeMenu}
-            className='rounded-lg bg-[var(--accent-bg)] px-4 py-2 text-center text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] max-md:w-full'
-          >
-            Log In
-          </Link>
+          <ThemeToggle
+            label='Change theme'
+            labelClassName='text-sm'
+            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800'
+          />
+          <div className='grid grid-cols-2 gap-3 pt-1'>
+            <Link
+              to='/login'
+              onClick={closeMenu}
+              className='rounded-xl border border-[var(--border)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+            >
+              Log in
+            </Link>
+            <Link
+              to='/signup'
+              onClick={closeMenu}
+              className='rounded-xl bg-[var(--accent-bold)] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+            >
+              Sign up
+            </Link>
+          </div>
         </>
       )}
     </>
+  );
+}
+
+function DesktopMenuElements() {
+  const { auth, signOut } = useAuth();
+  const navigate = useNavigate();
+  const isLearner = auth?.user?.role === 'learner';
+
+  return (
+    <div className='hidden items-center gap-1 lg:flex'>
+      <NavLink to='/courses' className={desktopLinkClass} aria-label='Courses'>
+        <BookOpen aria-hidden='true' size={19} />
+        <span className='hidden xl:inline'>Courses</span>
+      </NavLink>
+
+      {auth ? (
+        <>
+          {isLearner && (
+            <NavLink
+              to='/dashboard'
+              className={desktopLinkClass}
+              aria-label='Dashboard'
+            >
+              <House aria-hidden='true' size={19} />
+              <span className='hidden xl:inline'>Dashboard</span>
+            </NavLink>
+          )}
+          <span
+            aria-hidden='true'
+            className='mx-1 hidden h-6 w-px bg-[var(--border)] xl:block'
+          />
+          <NavLink
+            to='/profile'
+            className={desktopLinkClass}
+            aria-label='Profile'
+          >
+            <span className='flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-[var(--accent-bg)]'>
+              {auth.user?.avatar ? (
+                <img
+                  src={auth.user.avatar}
+                  alt=''
+                  className='h-7 w-7 object-cover'
+                />
+              ) : (
+                <CircleUser aria-hidden='true' size={20} />
+              )}
+            </span>
+            <span className='hidden xl:inline'>Profile</span>
+          </NavLink>
+          <ThemeToggle className='h-10 w-10 shrink-0' />
+          <button
+            type='button'
+            aria-label='Log out'
+            onClick={() => {
+              signOut();
+              navigate('/');
+            }}
+            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800'
+          >
+            <LogOut aria-hidden='true' size={19} />
+          </button>
+        </>
+      ) : (
+        <>
+          <ThemeToggle className='h-10 w-10 shrink-0' />
+          <Link
+            to='/login'
+            className='flex h-10 items-center rounded-full px-3 text-sm font-semibold text-[var(--text-h)] transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800'
+          >
+            Log in
+          </Link>
+          <Link
+            to='/signup'
+            className='flex h-10 items-center rounded-full bg-[var(--accent-bold)] px-4 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+          >
+            Sign up
+          </Link>
+        </>
+      )}
+    </div>
   );
 }
 
@@ -98,61 +234,31 @@ export default function NavBar() {
   const { auth } = useAuth();
 
   return (
-    <nav className='navbar fixed top-0 left-0 right-0 z-20 mx-auto flex w-full max-w-4xl items-center justify-between border-b border-[var(--nav-border)] bg-[var(--nav-bg)] px-6 py-4 shadow-[var(--nav-shadow)] backdrop-blur-md backdrop-saturate-150 md:mt-2 md:rounded-full'>
-      <Link
-        to='/'
-        aria-label='Penny Wise home'
-        className='relative flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800'
-      >
-        <House aria-hidden='true' />
-      </Link>
-      <Link
+    <nav className='navbar fixed top-0 left-0 right-0 z-20 mx-auto flex w-full max-w-5xl items-center justify-between border-b border-[var(--nav-border)] bg-[var(--nav-bg)] px-4 py-3 shadow-[var(--nav-shadow)] backdrop-blur-md backdrop-saturate-150 lg:mt-3 lg:rounded-full lg:border'>
+      <Brand
         to={auth?.user?.role === 'learner' ? '/dashboard' : '/'}
-        className='absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-2 whitespace-nowrap text-xl font-bold focus-visible:rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]'
-      >
-        <span className='relative block h-10 w-10 shrink-0'>
-          <span
-            aria-hidden='true'
-            className='absolute inset-0 flex items-center justify-center text-2xl font-black leading-none'
-          >
-            $
-          </span>
-          {!dollarFailed && (
-            <img
-              src={Dollar}
-              alt=''
-              width={40}
-              height={40}
-              decoding='async'
-              onLoad={() => setDollarLoaded(true)}
-              onError={() => setDollarFailed(true)}
-              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
-                dollarLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-          )}
-        </span>
-        <span className='leading-none'>Penny Wise</span>
-      </Link>
-      <div className='relative z-10 hidden items-center justify-end gap-4 md:flex'>
-        <MenuElements />
-      </div>
+        dollarLoaded={dollarLoaded}
+        dollarFailed={dollarFailed}
+        setDollarLoaded={setDollarLoaded}
+        setDollarFailed={setDollarFailed}
+      />
+      <DesktopMenuElements />
       <button
         aria-label='Toggle navigation menu'
         aria-expanded={isOpen}
         type='button'
-        className='flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800 md:hidden'
+        className='flex h-10 w-10 items-center justify-center rounded-full transition hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] dark:hover:bg-gray-800 lg:hidden'
         onClick={() => setIsOpen((open) => !open)}
       >
         <Menu aria-hidden='true' />
       </button>
       <div
         className={cn(
-          'absolute top-full left-0 right-0 flex flex-col items-stretch gap-2 border-b border-[var(--border)] bg-[var(--bg)] p-5 shadow-[var(--nav-shadow)] md:hidden',
-          isOpen ? '' : 'hidden',
+          'absolute top-full left-0 right-0 max-h-[calc(100svh-72px)] flex-col gap-1 overflow-y-auto border-b border-[var(--border)] bg-[var(--bg)] p-4 shadow-[var(--nav-shadow)] lg:hidden',
+          isOpen ? 'flex' : 'hidden',
         )}
       >
-        <MenuElements onNavigate={() => setIsOpen(false)} />
+        <MobileMenuElements onNavigate={() => setIsOpen(false)} />
       </div>
     </nav>
   );
