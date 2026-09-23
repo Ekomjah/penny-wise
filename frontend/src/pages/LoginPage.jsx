@@ -6,8 +6,8 @@ import AuthSplit, {
   SubmitButton,
   TextField,
 } from '../components/AuthSplit';
-import Hero from '../assets/Lesson-artwork.svg';
-import Faint from '../assets/hero.png';
+import BudgetingIllustration from '../assets/illustrations/svg/4 - BUDGETTING.svg';
+import FinancesIllustration from '../assets/illustrations/svg/6 - FINANCES.svg';
 import { loginUser } from '../lib/api/penny-wise';
 import { useAuth } from '../lib/useAuth';
 
@@ -55,9 +55,9 @@ export default function LoginPage() {
 
   return (
     <AuthSplit
-      heroSrc={Hero}
-      heroAlt='Person planning a budget at a desk'
-      faintSrc={Faint}
+      heroSrc={BudgetingIllustration}
+      heroAlt='Person reviewing a household budget'
+      faintSrc={FinancesIllustration}
       panelTitle='Penny Wise keeps every coin in check'
       panelSub='Log in to track spending, budgets, and savings goals.'
       chips={[

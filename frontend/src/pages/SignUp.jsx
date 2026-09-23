@@ -7,8 +7,8 @@ import AuthSplit, {
   SubmitButton,
   TextField,
 } from '../components/AuthSplit';
-import Hero from '../assets/Lesson-artwork.svg';
-import Faint from '../assets/hero.png';
+import BudgetingIllustration from '../assets/illustrations/svg/4 - BUDGETTING.svg';
+import FinancesIllustration from '../assets/illustrations/svg/6 - FINANCES.svg';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -64,9 +64,9 @@ const SignUp = () => {
 
   return (
     <AuthSplit
-      heroSrc={Hero}
-      heroAlt='Handshake over a bank counter'
-      faintSrc={Faint}
+      heroSrc={BudgetingIllustration}
+      heroAlt='Person planning a household budget'
+      faintSrc={FinancesIllustration}
       panelTitle='Start smart with Penny Wise'
       panelSub='Create an account to learn money skills and grow savings.'
       chips={[

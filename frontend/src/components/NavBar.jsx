@@ -87,7 +87,7 @@ function MobileMenuElements({ onNavigate }) {
             onClick={closeMenu}
             className={mobileLinkClass}
           >
-            <span className='flex h-7 w-7 items-center justify-center'>
+            <span className='flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[var(--accent-bg)]'>
               {auth.user?.avatar ? (
                 <img
                   src={auth.user.avatar}
@@ -180,7 +180,7 @@ function DesktopMenuElements() {
             className={desktopLinkClass}
             aria-label='Profile'
           >
-            <span className='flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-[var(--accent-bg)]'>
+            <span className='flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[var(--accent-bg)]'>
               {auth.user?.avatar ? (
                 <img
                   src={auth.user.avatar}
