@@ -278,7 +278,7 @@ const ProfileForm = ({ user, token }) => {
                 type='button'
                 disabled
                 title='Avatar upload is not yet available'
-                className='cursor-not-allowed rounded-full bg-[var(--accent-bold)] px-5 py-2 text-sm font-semibold text-white opacity-50'
+                className='cursor-not-allowed bg-[var(--accent-bold)] px-5 py-2 text-sm font-semibold text-white opacity-50'
               >
                 Upload
               </button>
@@ -286,7 +286,7 @@ const ProfileForm = ({ user, token }) => {
                 type='button'
                 disabled
                 title='Avatar upload is not yet available'
-                className='cursor-not-allowed rounded-full border border-[var(--accent-border)] px-5 py-2 text-sm font-semibold text-[var(--accent-bold)] opacity-50 dark:text-[var(--accent)]'
+                className='cursor-not-allowed border border-[var(--accent-border)] px-5 py-2 text-sm font-semibold text-[var(--accent-bold)] opacity-50 dark:text-[var(--accent)]'
               >
                 Remove
               </button>
@@ -428,7 +428,7 @@ const ProfileForm = ({ user, token }) => {
               <button
                 type='submit'
                 disabled={!dirty || Boolean(nameError)}
-                className='rounded-lg bg-[var(--accent-bold)] px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50'
+                className='bg-[var(--accent-bold)] px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50'
               >
                 Save changes
               </button>
@@ -436,7 +436,7 @@ const ProfileForm = ({ user, token }) => {
                 type='button'
                 onClick={handleDiscard}
                 disabled={!dirty}
-                className='rounded-lg border border-[var(--border)] bg-[var(--bg)] px-6 py-2.5 text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] disabled:cursor-not-allowed disabled:opacity-50'
+                className='border border-[var(--border)] bg-[var(--bg)] px-6 py-2.5 text-sm font-semibold text-[var(--text-h)] transition hover:bg-[var(--code-bg)] disabled:cursor-not-allowed disabled:opacity-50'
               >
                 Discard
               </button>
