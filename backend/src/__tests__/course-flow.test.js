@@ -177,7 +177,10 @@ describe('course enrollment', () => {
     expect(anonymous.status).toBe(401);
     expect(author.status).toBe(403);
     expect(first.status).toBe(201);
-    expect(first.body.learningState.status).toBe('in_progress');
+    expect(first.body.learningState).toMatchObject({
+      status: 'in_progress',
+      hasStarted: false,
+    });
     expect(second.status).toBe(200);
 
     const updatedLearner = await Learner.findById(learner._id);
@@ -202,6 +205,11 @@ describe('lesson player', () => {
     expect(first.body.pages[1].pairs).toBeUndefined();
     expect(first.body.pages[3].items[0].correctCategory).toBeUndefined();
     expect(second.status).toBe(200);
+
+    const courseResponse = await request(app)
+      .get(`/api/courses/${second.body.lesson.courseId}`)
+      .set('Authorization', `Bearer ${learnerToken}`);
+    expect(courseResponse.body.learningState.hasStarted).toBe(true);
   });
 
   it('retries wrong answers, advances on correct answers, and completes once', async () => {

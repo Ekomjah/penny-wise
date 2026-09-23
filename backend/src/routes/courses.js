@@ -147,6 +147,7 @@ async function getLearningState(course, learnerId) {
       totalLessons === 0
         ? 0
         : Math.round((completedLessonIds.length / totalLessons) * 100),
+    hasStarted: Boolean(activeProgress),
     firstLessonId: course.lessons[0] || null,
     resumeLessonId: activeProgress?.lesson || firstLessonId(course),
   };
