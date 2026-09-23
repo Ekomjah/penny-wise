@@ -403,6 +403,15 @@ describe('current learner', () => {
       expect(response.body.progress.completedPages).toBe(index + 1);
     }
 
+    const resumed = await request(app)
+      .post(`/api/courses/${course._id}/lessons/${lesson._id}/start`)
+      .set('Authorization', `Bearer ${learnerToken}`);
+    expect(resumed.body.completion).toMatchObject({
+      completed: true,
+      courseCompleted: true,
+      nextLesson: null,
+    });
+
     const completed = await request(app)
       .get('/api/auth/me')
       .set('Authorization', `Bearer ${learnerToken}`);

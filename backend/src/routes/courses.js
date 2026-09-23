@@ -676,11 +676,16 @@ router.post(
       }
     }
 
+    let completion = null;
+
     if (progress.state === 'completed') {
-      await finalizeCompletion(course, lesson, progress);
+      completion = await finalizeCompletion(course, lesson, progress);
     }
 
-    res.status(status).json(serializePlayer(lesson, pages, progress));
+    res.status(status).json({
+      ...serializePlayer(lesson, pages, progress),
+      completion,
+    });
   }),
 );
 
