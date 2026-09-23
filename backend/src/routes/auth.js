@@ -66,27 +66,56 @@ async function getLearningOverview(user) {
     )
     .map((course) => course._id);
   const activeProgress = progress.find((item) => item.state === 'in_progress');
+  let resumeCourseId = activeProgress?.course || null;
+  let resumeLessonId = activeProgress?.lesson || null;
+  let resumePageIndex = activeProgress?.currentPage || 0;
+
+  if (!resumeLessonId) {
+    const nextCourse = enrolledCourses.find((course) =>
+      course.lessons.some(
+        (lessonId) =>
+          !completedPairs.has(
+            `${user._id.toString()}:${course._id.toString()}:${lessonId.toString()}`,
+          ),
+      ),
+    );
+    resumeCourseId = nextCourse?._id || null;
+    resumeLessonId =
+      nextCourse?.lessons.find(
+        (lessonId) =>
+          !completedPairs.has(
+            `${user._id.toString()}:${nextCourse._id.toString()}:${lessonId.toString()}`,
+          ),
+      ) || null;
+  }
+
+  const resumeCourse = enrolledCourses.find(
+    (course) => course._id.toString() === resumeCourseId?.toString(),
+  );
+  const resumeLesson = resumeLessonId
+    ? await Lesson.findById(resumeLessonId).lean()
+    : null;
+  const pageId = resumeLesson?.pages[resumePageIndex] || null;
   let resume = null;
 
-  if (activeProgress) {
-    const [course, lesson] = await Promise.all([
-      Course.findById(activeProgress.course).lean(),
-      Lesson.findById(activeProgress.lesson).lean(),
-    ]);
-    const pageId = lesson?.pages[activeProgress.currentPage] || null;
-
-    if (course && lesson && pageId) {
-      resume = {
-        courseId: course._id,
-        courseName: course.name,
-        lessonId: lesson._id,
-        lessonName: lesson.name,
-        pageId,
-        pageNumber: activeProgress.currentPage + 1,
-        totalPages: lesson.pages.length,
-        updatedAt: activeProgress.updatedAt,
-      };
-    }
+  if (resumeCourse && resumeLesson && pageId) {
+    resume = {
+      courseId: resumeCourse._id,
+      courseName: resumeCourse.name,
+      lessonId: resumeLesson._id,
+      lessonName: resumeLesson.name,
+      pageId,
+      pageNumber: resumePageIndex + 1,
+      totalPages: resumeLesson.pages.length,
+      updatedAt:
+        activeProgress?.updatedAt ||
+        progress.find(
+          (item) =>
+            item.course.toString() === resumeCourse._id.toString() &&
+            item.lesson.toString() === resumeLesson._id.toString(),
+        )?.updatedAt ||
+        null,
+    };
   }
 
   return {

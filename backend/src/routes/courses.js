@@ -124,6 +124,7 @@ async function getLearningState(course, learnerId) {
   const completedLessonIds = completedProgress.map((progress) =>
     progress.lesson.toString(),
   );
+  const completedSet = new Set(completedLessonIds);
   const activeProgress = await LessonProgress.findOne({
     learner: learnerId,
     course: course._id,
@@ -131,6 +132,9 @@ async function getLearningState(course, learnerId) {
   })
     .sort({ updatedAt: -1 })
     .lean();
+  const nextLessonId = course.lessons.find(
+    (lessonId) => !completedSet.has(lessonId.toString()),
+  );
   const totalLessons = course.lessons.length;
   const status = !enrolled
     ? 'not_enrolled'
@@ -147,14 +151,11 @@ async function getLearningState(course, learnerId) {
       totalLessons === 0
         ? 0
         : Math.round((completedLessonIds.length / totalLessons) * 100),
-    hasStarted: Boolean(activeProgress),
+    hasStarted: Boolean(activeProgress) || completedLessonIds.length > 0,
     firstLessonId: course.lessons[0] || null,
-    resumeLessonId: activeProgress?.lesson || firstLessonId(course),
+    resumeLessonId:
+      activeProgress?.lesson || nextLessonId || course.lessons[0] || null,
   };
-}
-
-function firstLessonId(course) {
-  return course.lessons[0] || null;
 }
 
 async function resolveLearningState(req, course) {

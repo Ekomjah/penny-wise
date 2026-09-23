@@ -352,8 +352,29 @@ describe('lesson player', () => {
 });
 
 describe('current learner', () => {
-  it('returns active resume and completed course state', async () => {
+  it('returns active and next-lesson resume state', async () => {
     const { course, lesson, learnerToken, pages } = await createCourseFixture();
+    const nextLesson = new Lesson({
+      courseId: course._id,
+      name: 'Next Lesson',
+      description: 'Continue learning.',
+      experience: 5,
+      estimatedDurationOfCompletionInMinutes: 5,
+      pages: [],
+    });
+    const nextPage = await MultipleChoicePage.create({
+      lessonId: nextLesson._id,
+      text: 'Choose one.',
+      options: [
+        { answerText: 'Correct', isCorrect: true },
+        { answerText: 'Incorrect', isCorrect: false },
+      ],
+    });
+    nextLesson.pages = [nextPage._id];
+    await nextLesson.save();
+    course.lessons.push(nextLesson._id);
+    await course.save();
+
     await request(app)
       .post(`/api/courses/${course._id}/lessons/${lesson._id}/start`)
       .set('Authorization', `Bearer ${learnerToken}`);
@@ -403,21 +424,36 @@ describe('current learner', () => {
       expect(response.body.progress.completedPages).toBe(index + 1);
     }
 
+    const courseState = await request(app)
+      .get(`/api/courses/${course._id}`)
+      .set('Authorization', `Bearer ${learnerToken}`);
+    expect(courseState.body.learningState).toMatchObject({
+      hasStarted: true,
+      resumeLessonId: nextLesson._id.toString(),
+    });
+
     const resumed = await request(app)
       .post(`/api/courses/${course._id}/lessons/${lesson._id}/start`)
       .set('Authorization', `Bearer ${learnerToken}`);
     expect(resumed.body.completion).toMatchObject({
       completed: true,
-      courseCompleted: true,
-      nextLesson: null,
+      courseCompleted: false,
+      nextLesson: {
+        lessonId: nextLesson._id.toString(),
+        name: 'Next Lesson',
+      },
     });
 
     const completed = await request(app)
       .get('/api/auth/me')
       .set('Authorization', `Bearer ${learnerToken}`);
-    expect(completed.body.learning.resume).toBeNull();
-    expect(completed.body.learning.completedCourseIds).toEqual([
-      course._id.toString(),
-    ]);
+    expect(completed.body.learning.resume).toMatchObject({
+      courseId: course._id.toString(),
+      lessonId: nextLesson._id.toString(),
+      pageId: nextPage._id.toString(),
+      pageNumber: 1,
+      totalPages: 1,
+    });
+    expect(completed.body.learning.completedCourseIds).toEqual([]);
   });
 });
