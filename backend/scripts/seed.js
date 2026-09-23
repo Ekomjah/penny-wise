@@ -7,6 +7,7 @@ const Money = require('../src/models/money');
 const { Author, Learner } = require('../src/models/User');
 const Course = require('../src/models/Course');
 const Lesson = require('../src/models/Lesson');
+const LessonProgress = require('../src/models/LessonProgress');
 const { Page } = require('../src/models/Page');
 const Wallet = require('../src/models/wallet');
 
@@ -344,6 +345,7 @@ async function seed({ mongoUri } = {}) {
 
   await Promise.all([
     Wallet.deleteMany({}),
+    LessonProgress.deleteMany({}),
     Page.deleteMany({}),
     Lesson.deleteMany({}),
     Course.deleteMany({}),
@@ -376,7 +378,11 @@ async function seed({ mongoUri } = {}) {
         passwordHash: passwordHash,
         country: country._id,
         coursesEnrolled: [],
-        coursesCreated: [],
+        completedLessons: [],
+        experience: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        currentLives: 5,
       },
       { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true },
     );
@@ -394,8 +400,6 @@ async function seed({ mongoUri } = {}) {
         role: seedAuthor.role,
         passwordHash: passwordHash,
         country: country._id,
-        coursesEnrolled: [],
-        coursesCreated: [],
       },
       { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true },
     );
@@ -455,14 +459,6 @@ async function seed({ mongoUri } = {}) {
 
     // creator.coursesCreated.push(course._id);
     // await creator.save();
-  }
-
-  const learners = SEED_USERS.filter((u) => u.role === 'learner').map(
-    (u) => usersByEmail[u.email],
-  );
-  for (const learner of learners) {
-    learner.coursesEnrolled = courses.map((c) => c._id);
-    await learner.save();
   }
 
   for (const walletData of WALLETS) {
