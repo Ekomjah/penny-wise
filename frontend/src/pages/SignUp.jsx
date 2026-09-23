@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { registerUser } from '../lib/api/penny-wise';
 import AuthSplit, {
@@ -7,10 +7,12 @@ import AuthSplit, {
   SubmitButton,
   TextField,
 } from '../components/AuthSplit';
-import Hero from '../assets/illustrations/svg/7 - BANK DEAL.svg';
-import Faint from '../assets/illustrations/svg/9 - ECONOMY ANALYSIS.svg';
+import Hero from '../assets/Lesson-artwork.svg';
+import Faint from '../assets/hero.png';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,9 +39,7 @@ const SignUp = () => {
         state: 'success',
         message: 'Account created successfully! Redirecting to login…',
       });
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 2000);
+      navigate('/login', { replace: true, state: location.state });
     } catch (error) {
       setStatus({
         state: 'error',
@@ -47,7 +47,6 @@ const SignUp = () => {
           error?.error ||
           'An error occurred while creating your account. Please try again.',
       });
-      console.error('Error creating account:', error);
     }
   };
 

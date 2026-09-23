@@ -1,18 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import AuthSplit, {
   FormStatus,
   SubmitButton,
   TextField,
 } from '../components/AuthSplit';
-import Hero from '../assets/illustrations/svg/4 - BUDGETTING.svg';
-import Faint from '../assets/illustrations/svg/6 - FINANCES.svg';
+import Hero from '../assets/Lesson-artwork.svg';
+import Faint from '../assets/hero.png';
 import { loginUser } from '../lib/api/penny-wise';
 import { useAuth } from '../lib/useAuth';
 
-const LoginPage = () => {
+function getDestination(location, role) {
+  const from = location.state?.from;
+  if (typeof from === 'string') return from;
+  if (from?.pathname) {
+    return `${from.pathname}${from.search ?? ''}${from.hash ?? ''}`;
+  }
+  return role === 'learner' ? '/dashboard' : '/';
+}
+
+export default function LoginPage() {
   const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
@@ -21,29 +32,24 @@ const LoginPage = () => {
 
   const loading = status?.state === 'loading';
 
-  const submit = async (e) => {
+  const submit = async (event) => {
+    event.preventDefault();
+    if (loading) return;
+    setStatus({ state: 'loading', message: 'Signing you in…' });
+
     try {
-      e.preventDefault();
-      if (loading) return;
-      setStatus({ state: 'loading', message: 'Signing you in…' });
       const data = await loginUser({ email, password });
       signIn({ token: data.token, user: data.user });
-      setStatus({
-        state: 'success',
-        message: 'Logged in successfully! Redirecting…',
-      });
-
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 2000);
+      setStatus({ state: 'success', message: 'Logged in successfully!' });
+      navigate(getDestination(location, data.user.role), { replace: true });
     } catch (error) {
       setStatus({
         state: 'error',
         message:
           error?.error ||
+          error?.message ||
           'An error occurred while logging in. Please check your credentials and try again.',
       });
-      console.error('Error logging in:', error);
     }
   };
 
@@ -79,7 +85,7 @@ const LoginPage = () => {
           placeholder='Enter your email'
           autoComplete='email'
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
           icon={Mail}
           required
         />
@@ -92,16 +98,16 @@ const LoginPage = () => {
           autoComplete='current-password'
           minLength={8}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(event) => setPassword(event.target.value)}
           icon={Lock}
           required
           rightSlot={
             <button
               type='button'
-              onClick={() => setShowPassword((v) => !v)}
+              onClick={() => setShowPassword((value) => !value)}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               aria-pressed={showPassword}
-              className='absolute top-1/2 right-3 -translate-y-1/2 text-[var(--text)] opacity-70 transition-opacity hover:opacity-100'
+              className='absolute top-1/2 right-3 -translate-y-1/2 text-[var(--text)] opacity-70 transition-opacity hover:opacity-100 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-[var(--accent)]'
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -118,7 +124,7 @@ const LoginPage = () => {
               id='remember'
               name='remember'
               checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
+              onChange={(event) => setRemember(event.target.checked)}
               className='h-4 w-4 rounded accent-[var(--accent-bold)]'
             />
             Remember me
@@ -135,13 +141,12 @@ const LoginPage = () => {
         Don&apos;t have an account?{' '}
         <Link
           to='/signup'
-          className='font-semibold text-[var(--accent)] hover:underline'
+          state={location.state}
+          className='font-semibold text-[var(--accent)] hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
         >
           Create an account
         </Link>
       </p>
     </AuthSplit>
   );
-};
-
-export default LoginPage;
+}
