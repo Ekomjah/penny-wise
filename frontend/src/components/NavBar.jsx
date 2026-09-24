@@ -67,7 +67,9 @@ function MobileMenuElements({ onNavigate }) {
   return (
     <>
       <NavLink to='/courses' onClick={closeMenu} className={mobileLinkClass}>
-        <BookOpen aria-hidden='true' size={19} />
+        <span className='flex h-6 w-6 shrink-0 items-center justify-center'>
+          <BookOpen aria-hidden='true' size={19} />
+        </span>
         Courses
       </NavLink>
       {auth ? (
@@ -78,7 +80,9 @@ function MobileMenuElements({ onNavigate }) {
               onClick={closeMenu}
               className={mobileLinkClass}
             >
-              <House aria-hidden='true' size={19} />
+              <span className='flex h-6 w-6 shrink-0 items-center justify-center'>
+                <House aria-hidden='true' size={19} />
+              </span>
               Dashboard
             </NavLink>
           )}
@@ -87,7 +91,7 @@ function MobileMenuElements({ onNavigate }) {
             onClick={closeMenu}
             className={mobileLinkClass}
           >
-            <span className='flex h-7 w-7 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[var(--accent-bg)]'>
+            <span className='flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[var(--accent-bg)]'>
               {auth.user?.avatar ? (
                 <img
                   src={auth.user.avatar}
@@ -103,7 +107,8 @@ function MobileMenuElements({ onNavigate }) {
           <ThemeToggle
             label='Change theme'
             labelClassName='text-sm'
-            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800'
+            iconClassName='h-6 w-6'
+            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-800'
           />
           <button
             type='button'
@@ -114,7 +119,9 @@ function MobileMenuElements({ onNavigate }) {
             }}
             className={`${mobileLinkClass} cursor-pointer`}
           >
-            <LogOut aria-hidden='true' size={19} />
+            <span className='flex h-6 w-6 shrink-0 items-center justify-center'>
+              <LogOut aria-hidden='true' size={19} />
+            </span>
             Log out
           </button>
         </>
@@ -123,9 +130,10 @@ function MobileMenuElements({ onNavigate }) {
           <ThemeToggle
             label='Change theme'
             labelClassName='text-sm'
-            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800'
+            iconClassName='h-6 w-6'
+            className='w-full justify-start gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-800'
           />
-          <div className='grid grid-cols-2 gap-3 pt-1'>
+          <div className='grid grid-cols-1 gap-2 pt-1'>
             <Link
               to='/login'
               onClick={closeMenu}
