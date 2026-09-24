@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   ArrowRight,
+  BadgeCheck,
   BookOpen,
   CheckCircle2,
   Clock3,
   GraduationCap,
   RefreshCw,
-  Sparkles,
   Trophy,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import TargetHero from '../assets/target_icon.svg';
 import { getCourses, getCurrentUser } from '../lib/api/penny-wise';
 import { useAuth } from '../lib/useAuth';
 import { formatMinutes, getCourseResumeLink, getId } from '../utils/courseData';
@@ -109,18 +110,29 @@ export default function Dashboard() {
 
   return (
     <main className='mx-auto w-full max-w-6xl px-4 py-8 text-left sm:px-6 sm:py-10'>
-      <section className='max-w-3xl'>
-        <p className='text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]'>
-          Learning dashboard
-        </p>
-        <h1 className='mt-3 text-4xl font-semibold tracking-tight text-[var(--text-h)] sm:text-5xl'>
-          {displayName
-            ? `Keep going, ${displayName}.`
-            : 'Keep learning at your pace.'}
-        </h1>
-        <p className='mt-4 text-lg text-[var(--text)]'>
-          Pick up your saved lesson or choose a new course when you are ready.
-        </p>
+      <section className='overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--code-bg)] p-6 shadow-[var(--shadow)] sm:p-8'>
+        <div className='flex items-center justify-between gap-4 sm:gap-8'>
+          <div className='max-w-3xl'>
+            <p className='text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]'>
+              Learning dashboard
+            </p>
+            <h1 className='mt-3 text-4xl font-semibold tracking-tight text-[var(--text-h)] sm:text-5xl'>
+              {displayName
+                ? `Keep going, ${displayName}.`
+                : 'Keep learning at your pace.'}
+            </h1>
+            <p className='mt-4 max-w-2xl text-lg text-[var(--text)]'>
+              Pick up your saved lesson or choose a new course when you are
+              ready.
+            </p>
+          </div>
+          <img
+            src={TargetHero}
+            alt=''
+            aria-hidden='true'
+            className='w-20 shrink-0 object-contain drop-shadow-sm sm:w-24 lg:w-28'
+          />
+        </div>
       </section>
 
       {status === 'loading' && (
@@ -196,8 +208,7 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className='mt-4 rounded-2xl border border-dashed border-[var(--border)] bg-[var(--bg)] p-7'>
-                <Sparkles aria-hidden='true' className='text-[var(--accent)]' />
-                <h3 className='mt-3 text-xl font-semibold text-[var(--text-h)]'>
+                <h3 className='text-xl font-semibold text-[var(--text-h)]'>
                   No lesson is waiting for you
                 </h3>
                 <p className='mt-2 max-w-xl text-[var(--text)]'>
@@ -247,7 +258,7 @@ export default function Dashboard() {
                 }
               />
               <StatCard
-                icon={Sparkles}
+                icon={BadgeCheck}
                 label='Courses completed'
                 value={
                   Array.isArray(completedCourses)
