@@ -43,7 +43,7 @@ function optionalAuth(req, res, next) {
   try {
     attachUser(req, token);
   } catch {
-    return res.status(401).json({ error: 'Invalid or expired token' });
+    return next();
   }
 
   return next();

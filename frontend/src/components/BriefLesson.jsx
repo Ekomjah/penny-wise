@@ -4,6 +4,7 @@ import {
   Clock3,
   Lightbulb,
   Sparkles,
+  School,
 } from 'lucide-react';
 
 const imageSource = (image) =>
@@ -17,7 +18,7 @@ export default function BriefLesson({ lesson }) {
   const readTime = lesson.readTimeMinutes || 2;
 
   return (
-    <article className='brief-lesson overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--bg)] shadow-[var(--shadow)]'>
+    <article className='brief-lesson mt-4 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--bg)] shadow-[var(--shadow)]'>
       <header className='brief-lesson-hero relative isolate overflow-hidden'>
         {heroImage?.url && (
           <img
@@ -31,11 +32,11 @@ export default function BriefLesson({ lesson }) {
         <div className='absolute inset-0 bg-gradient-to-t from-[#120d24]/90 via-[#120d24]/45 to-[#120d24]/10' />
         <div className='relative z-10 flex min-h-72 flex-col justify-end gap-5 p-6 text-white sm:min-h-96 sm:p-10'>
           <div className='flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/80'>
-            <span className='inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-3 py-1.5 backdrop-blur-md'>
-              <Sparkles size={14} aria-hidden='true' />
+            <span className='inline-flex items-center gap-2 rounded border border-white/30 bg-white/15 px-3 py-1.5 backdrop-blur-md'>
+              <School size={14} aria-hidden='true' />
               Quick lesson
             </span>
-            <span className='inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/15 px-3 py-1.5 backdrop-blur-md'>
+            <span className='inline-flex items-center gap-1.5 rounded   border border-white/20 bg-black/15 px-3 py-1.5 backdrop-blur-md'>
               <Clock3 size={14} aria-hidden='true' />
               {readTime} min read
             </span>
@@ -136,6 +137,7 @@ export default function BriefLesson({ lesson }) {
           </span>
           <a
             href='#practice'
+            aria-label='Jump to the practice activity'
             className='rounded-full border border-[var(--accent-border)] px-4 py-2 font-semibold text-[var(--accent-bold)] transition hover:bg-[var(--accent-bg)] dark:text-[var(--accent)]'
           >
             Jump to practice

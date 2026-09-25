@@ -142,3 +142,20 @@ export const fallbackBriefLessons = {
       'Prices carry stories about time and effort, and your time is valuable too.',
   },
 };
+
+const briefLessonByCourse = {
+  'money basics': fallbackBriefLessons.money,
+  'smart spending': fallbackBriefLessons.spending,
+  'saving goals': fallbackBriefLessons.saving,
+  'earning & work': fallbackBriefLessons.work,
+};
+
+export function getFallbackBriefLesson(courseName) {
+  return (
+    briefLessonByCourse[
+      String(courseName ?? '')
+        .toLowerCase()
+        .trim()
+    ] || fallbackBriefLessons.money
+  );
+}

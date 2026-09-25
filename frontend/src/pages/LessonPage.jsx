@@ -12,8 +12,10 @@ import {
   Volume2,
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+import BriefLesson from '../components/BriefLesson';
 import ActivityRenderer from '../components/course/ActivityRenderer';
 import ProgressBar from '../components/course/ProgressBar';
+import { getFallbackBriefLesson } from '../data/briefLessons';
 import useLessonPlayer from '../hooks/useLessonPlayer';
 import { getCourse } from '../lib/api/penny-wise';
 import { useAuth } from '../lib/useAuth';
@@ -348,6 +350,9 @@ export default function LessonPage() {
     );
   }
 
+  const briefLesson =
+    player.lesson?.briefLesson || getFallbackBriefLesson(course?.name);
+
   return (
     <main className='mx-auto w-full max-w-7xl px-4 py-8 text-left sm:px-6 sm:py-10'>
       <nav aria-label='Breadcrumb' className='text-sm text-[var(--text)]'>
@@ -396,6 +401,8 @@ export default function LessonPage() {
             </div>
           </header>
 
+          {briefLesson && <BriefLesson lesson={briefLesson} />}
+
           <div className='mt-8 rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-5 shadow-[var(--shadow)] sm:p-6'>
             <div className='flex flex-wrap items-center justify-between gap-3'>
               <h2 className='text-lg font-semibold text-[var(--text-h)]'>
@@ -439,7 +446,8 @@ export default function LessonPage() {
             </div>
           ) : player.currentPage ? (
             <section
-              className='mt-6 rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-6 shadow-[var(--shadow)] sm:p-8'
+              id='practice'
+              className='mt-6 scroll-mt-24 rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-6 shadow-[var(--shadow)] sm:p-8'
               aria-labelledby='activity-heading'
             >
               <p className='text-sm font-semibold uppercase tracking-[0.14em] text-[var(--accent)]'>
