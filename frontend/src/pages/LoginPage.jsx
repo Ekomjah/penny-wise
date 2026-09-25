@@ -56,7 +56,7 @@ export default function LoginPage() {
   return (
     <AuthSplit
       heroSrc={BudgetingIllustration}
-      heroAlt='Person reviewing a household budget'
+      heroAlt='Person planning a budget at a desk'
       faintSrc={FinancesIllustration}
       panelTitle='Penny Wise keeps every coin in check'
       panelSub='Log in to track spending, budgets, and savings goals.'
@@ -68,10 +68,10 @@ export default function LoginPage() {
       mobileSub='Log in to your account'
     >
       <div className='mb-6 hidden lg:block'>
-        <h1 className='m-0 text-[28px] font-semibold tracking-tight text-[var(--text-h)]'>
+        <h1 className='m-0 text-[28px] font-semibold tracking-tight text-(--text-h)'>
           Log in
         </h1>
-        <p className='mt-2 text-[15px] text-[var(--text)]'>
+        <p className='mt-2 text-[15px] text-(--text)'>
           Welcome back! Log in to your account.
         </p>
       </div>
@@ -107,7 +107,7 @@ export default function LoginPage() {
               onClick={() => setShowPassword((value) => !value)}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               aria-pressed={showPassword}
-              className='absolute top-1/2 right-3 -translate-y-1/2 text-[var(--text)] opacity-70 transition-opacity hover:opacity-100 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-[var(--accent)]'
+              className='absolute top-1/2 right-3 -translate-y-1/2 text-(--text) opacity-70 transition-opacity hover:opacity-100 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-(--accent)'
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -117,7 +117,7 @@ export default function LoginPage() {
         <div className='flex items-center justify-between text-sm'>
           <label
             htmlFor='remember'
-            className='flex cursor-pointer items-center gap-2 text-[var(--text)]'
+            className='flex cursor-pointer items-center gap-2 text-(--text)'
           >
             <input
               type='checkbox'
@@ -125,10 +125,23 @@ export default function LoginPage() {
               name='remember'
               checked={remember}
               onChange={(event) => setRemember(event.target.checked)}
-              className='h-4 w-4 rounded accent-[var(--accent-bold)]'
+              className='h-4 w-4 rounded accent-(--accent-bold)'
             />
             Remember me
           </label>
+          <button
+            type='button'
+            onClick={() =>
+              setStatus({
+                state: 'info',
+                message:
+                  'Password reset is not available yet. Ask an administrator for help.',
+              })
+            }
+            className='font-medium text-(--accent) hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent)'
+          >
+            Forgot password?
+          </button>
         </div>
 
         <SubmitButton loading={loading}>
@@ -137,12 +150,12 @@ export default function LoginPage() {
         <FormStatus status={status} />
       </form>
 
-      <p className='mt-6 text-center text-sm text-[var(--text)]'>
+      <p className='mt-6 text-center text-sm text-(--text)'>
         Don&apos;t have an account?{' '}
         <Link
           to='/signup'
           state={location.state}
-          className='font-semibold text-[var(--accent)] hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]'
+          className='font-semibold text-(--accent) hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent)'
         >
           Create an account
         </Link>
