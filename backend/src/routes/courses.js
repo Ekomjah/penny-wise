@@ -56,6 +56,7 @@ function serializeLessonSummary(lesson) {
     experience: lesson.experience,
     estimatedDurationOfCompletionInMinutes:
       lesson.estimatedDurationOfCompletionInMinutes,
+    briefLesson: lesson.briefLesson || null,
   };
 }
 
