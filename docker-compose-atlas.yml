@@ -4,16 +4,22 @@ services:
       context: ./backend
       target: prod
     restart: unless-stopped
-    ports: 
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 1.0
+    ports:
       - "5000:5000"
     environment:
-     - ${MONGODB_URI:?MONGODB_URI must be set}
+      - MONGODB_URI=${MONGODB_URI:?MONGODB_URI must be set}
 
   frontend:
     build:
       context: ./frontend
       target: runner
     restart: unless-stopped
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 1.0
     depends_on:
       - backend
     ports:

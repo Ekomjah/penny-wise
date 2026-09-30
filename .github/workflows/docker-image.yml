@@ -2,31 +2,54 @@ name: Test Penny Wise
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build penny wise and test
-      env:
-        ATLAS_USER: ${{ secrets.ATLAS_USER }}
-        ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
-        ATLAS_CLUSTER: ${{ secrets.ATLAS_CLUSTER }}
-      run: |
-        cp .env_example .env
-        sed -i "s/<db_atlas_user>/${ATLAS_USER}/g" .env
-        sed -i "s/<password>/${ATLAS_PASSWORD}/g" .env
-        sed -i "s/<mongodb_atlas_cluster>/${ATLAS_CLUSTER}/g" .env
-        sed -i "s/_backend_1/-backend-1/g" package.json
-        npm install
-        npm run start
-        docker exec penny-wise-backend-1 bash -c "until curl -sf http://localhost:5000/api/health; do sleep 4; done"
-        npm run seed_n_test
+      - uses: actions/checkout@v4
+
+      - name: Free build runner space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/graalvm
+          docker system prune -af --volumes || true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Build Atlas MongoDB URI
+        env:
+          ATLAS_USER: ${{ secrets.ATLAS_USER }}
+          ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
+          ATLAS_CLUSTER: ${{ secrets.ATLAS_CLUSTER }}
+        run: |
+          echo "MONGODB_URI=mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_CLUSTER}/pennywise?retryWrites=true&w=majority" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --prefer-offline
+
+      - name: Start app with memory limits
+        env:
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+        run: |
+          docker compose -f docker-compose-atlas.yml up -d --build --remove-orphans
+
+      - name: Wait for backend health
+        run: |
+          timeout 120 bash -c 'until curl -fsS http://localhost:5000/api/health; do sleep 3; done'
+
+      - name: Run test seed
+        run: npm run seed_n_test
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker compose -f docker-compose-atlas.yml down -v --remove-orphans
