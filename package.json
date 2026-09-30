@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/freeCodeCamp-Summer-Cohort-2026/penny-wise#readme",
   "devDependencies": {
-    "lefthook": "^2.1.14"
+    "lefthook": "^2.1.14",
+    "cross-env": "^10.1.0" 
   },
   "allowScripts": {
     "lefthook@2.1.14": true
