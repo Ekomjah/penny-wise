@@ -54,7 +54,7 @@ router.get('/', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+});
 
 const asyncRoute = (handler) => (req, res, next) => {
   Promise.resolve(handler(req, res, next)).catch(next);
