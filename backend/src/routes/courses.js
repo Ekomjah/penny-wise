@@ -2,12 +2,22 @@ const crypto = require('crypto');
 const express = require('express');
 const mongoose = require('mongoose');
 const Course = require('../models/Course');
+const Lesson = require('../models/Lesson');
+const { Page } = require('../models/Page');
+const LessonProgress = require('../models/LessonProgress');
+const { Learner } = require('../models/User');
 const { Author } = require('../models/User');
-require('../models/Lesson');
-require('../models/Page');
+
 const { requireAuth, optionalAuth, checkRole } = require('../middleware/auth');
 
 const router = express.Router();
+
+class RouteError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
+}
 
 router.post('/', requireAuth, checkRole('author'), async (req, res, next) => {
   try {
