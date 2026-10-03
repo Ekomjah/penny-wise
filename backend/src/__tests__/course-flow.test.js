@@ -30,7 +30,7 @@ async function createUser(LearnerModel = Learner) {
   const email = `${LearnerModel.modelName.toLowerCase()}-${Date.now()}-${Math.random()}@example.com`;
   return LearnerModel.create({
     email,
-    displayName: 'Test Learner',
+    displayName: `Test ${LearnerModel.modelName}`,
     passwordHash,
   });
 }
@@ -40,8 +40,9 @@ async function createCourseFixture({ enroll = true } = {}) {
   const learner = await createUser();
   const lesson = new Lesson({
     courseId: new Course()._id,
-    name: 'Money Practice',
-    description: 'Practice core money decisions.',
+    name: 'Money Basics',
+    description:
+      'Learn what money is, where the idea came from, and why we use it every day.',
     experience: 12,
     estimatedDurationOfCompletionInMinutes: 8,
     pages: [],

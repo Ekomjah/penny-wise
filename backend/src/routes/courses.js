@@ -55,17 +55,6 @@ router.post('/', requireAuth, checkRole('author'), async (req, res, next) => {
   }
 });
 
-router.get('/', async (req, res, next) => {
-  try {
-    const courses = await Course.find({ published: true })
-      .populate({ path: 'lessons', populate: { path: 'pages' } })
-      .lean();
-    res.json({ courses });
-  } catch (err) {
-    next(err);
-  }
-});
-
 const asyncRoute = (handler) => (req, res, next) => {
   Promise.resolve(handler(req, res, next)).catch(next);
 };
