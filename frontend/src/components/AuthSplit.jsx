@@ -1,5 +1,4 @@
-import { LoaderCircle, ChevronDown, Check, ChevronUp } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { LoaderCircle } from 'lucide-react';
 
 export default function AuthSplit({
   heroSrc,
@@ -118,82 +117,18 @@ export function TextField({
 }
 
 export function SubmitButton({ loading, children }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState('User');
-  const toggleDropDown = () => setIsOpen(!isOpen);
-  const dropDownRef = useRef(null);
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
   return (
-    <div ref={dropDownRef} className='relative'>
-      <div className='flex items-stretch bg-(--accent-bold) text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70'>
-        <button
-          type='submit'
-          disabled={loading}
-          className='flex w-full items-center justify-center gap-2 px-4 py-3'
-        >
-          {loading && (
-            <LoaderCircle
-              size={18}
-              aria-hidden='true'
-              className='animate-spin'
-            />
-          )}
-          {children}
-        </button>
-        <div
-          onClick={toggleDropDown}
-          className='flex shrink-0 cursor-pointer items-center self-stretch border-l border-white/30 pr-4 pl-3 transition-colors hover:bg-white/10'
-        >
-          {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          className='origin-top-right absolute right-0 mt-2 w-56
-                         rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5
-                         focus:outline-none'
-          role='menu'
-        >
-          <div className='py-1 cursor-pointer' role='none'>
-            <div>
-              <div
-                href='#'
-                onClick={() => {
-                  setSelectedRole('User');
-                }}
-                className='block px-4 py-2 text-sm text-gray-700
-                                 hover:bg-gray-100 justify-between items-center'
-                role='menuitem'
-              >
-                <span>User</span>
-                {selectedRole === 'User' && <Check />}
-              </div>
-            </div>
-            <div
-              href='#'
-              onClick={() => {
-                setSelectedRole('Author');
-              }}
-              className='block px-4 py-2 text-sm text-gray-700
-                                 hover:bg-gray-100 justify-between items-center'
-              role='menuitem'
-            >
-              <span>Author</span>
-              {selectedRole === 'Author' && <Check />}
-            </div>
-          </div>
-        </div>
-      )}
+    <div className='flex items-stretch bg-(--accent-bold) text-[15px] font-semibold text-white transition hover:brightness-110 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70'>
+      <button
+        type='submit'
+        disabled={loading}
+        className='flex w-full items-center justify-center gap-2 px-4 py-3'
+      >
+        {loading && (
+          <LoaderCircle size={18} aria-hidden='true' className='animate-spin' />
+        )}
+        {children}
+      </button>
     </div>
   );
 }
