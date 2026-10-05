@@ -113,7 +113,7 @@ describe('controlled activities', () => {
     const LANG = process.env.LANG;
     console.log('Language is: ' + LANG);
 
-    if (LANG === 'en_US.utf-8') {
+    if (LANG === 'en_US.utf-8' || LANG === 'C.UTF-8') {
       expect(
         screen.getByText(/\$1.00/, { selector: 'dd', exact: false }),
       ).toBeInTheDocument();
