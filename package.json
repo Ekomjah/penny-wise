@@ -7,7 +7,8 @@
     "lefthook": "lefthook",
     "start": "docker compose -f docker-compose-atlas.yml up --build -d",
     "stop": "docker compose -f docker-compose-atlas.yml down -v",
-    "seed_n_test": "docker exec penny-wise-backend-1 node scripts/seed && cd backend && npm install && npm run test"
+    "seed_n_test": "docker exec penny-wise-backend-1 node scripts/seed && cd backend && npm install && npm run test",
+    "tests": "cd backend && npm install && npm run test && cd ../frontend && npm install && npm run test"
   },
   "repository": {
     "type": "git",
