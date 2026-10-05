@@ -110,12 +110,24 @@ describe('controlled activities', () => {
 
     await userEvent.click(screen.getByRole('checkbox', { name: /Notebook/ }));
 
-    expect(
-      screen.getByText(/1[,.]00 US\$/, { selector: 'dd', exact: false }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/4[,.]00 US\$/, { selector: 'dd', exact: false }),
-    ).toBeInTheDocument();
+    const LANG = process.env.LANG;
+    console.log('Language is: ' + LANG);
+
+    if (LANG === 'en_US.utf-8') {
+      expect(
+        screen.getByText(/\$1.00/, { selector: 'dd', exact: false }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/\$4.00/, { selector: 'dd', exact: false }),
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.getByText(/1[,.]00 US\$/, { selector: 'dd', exact: false }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/4[,.]00 US\$/, { selector: 'dd', exact: false }),
+      ).toBeInTheDocument();
+    }
     expect(onChange).toHaveBeenCalledWith({ selectedItemIndexes: [0] });
   });
 
