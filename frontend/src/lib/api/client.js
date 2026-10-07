@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { clearAuth, getAuthToken } from '../authStorage';
 
 const baseURL =
   import.meta.env.VITE_API_BASE_URL?.trim() || 'http://localhost:5000/api';
@@ -28,42 +27,18 @@ export function normalizeApiError(error) {
   return normalized;
 }
 
-export function attachAuthToken(config) {
-  const token = getAuthToken();
-  if (!token) return config;
-
-  if (config.headers && typeof config.headers.set === 'function') {
-    config.headers.set('Authorization', `Bearer ${token}`);
-  } else {
-    config.headers = {
-      ...(config.headers || {}),
-      Authorization: `Bearer ${token}`,
-    };
-  }
-
-  return config;
-}
-
 export function handleApiError(error) {
-  const normalized = normalizeApiError(error);
-  const requestUrl = error?.config?.url || '';
-  const isAuthEntry = ['/auth/login', '/auth/register'].some((path) =>
-    requestUrl.includes(path),
-  );
-
-  if (normalized.status === 401 && !isAuthEntry) clearAuth();
-  return normalized;
+  return normalizeApiError(error);
 }
 
 export const api = axios.create({
   baseURL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
-api.interceptors.request.use(attachAuthToken);
 
 api.interceptors.response.use(
   (response) => response,

@@ -252,8 +252,13 @@ router.post('/register', registerLimiter, async (req, res) => {
     }
 
     const token = signToken(user);
-
-    return res.status(201).json({ token, user: sanitizeUser(user) });
+    res.cookie('authCookie', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+    });
+    return res.status(201).json({ success: true, user: sanitizeUser(user) });
   } catch (err) {
     console.log({ err });
     return res.status(500).json({ error: 'Failed to register user' });
@@ -286,7 +291,7 @@ router.post('/login', loginLimiter, async (req, res) => {
       sameSite: 'lax',
       maxAge: 15 * 60 * 1000, //expires in 15mins,
     });
-    return res.json({ success: true });
+    return res.json({ success: true, user: sanitizeUser(user) });
   } catch (err) {
     console.log({ err });
     return res.status(500).json({ error: 'Failed to log in' });

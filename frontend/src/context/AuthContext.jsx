@@ -1,44 +1,53 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  AUTH_CHANGE_EVENT,
-  AUTH_STORAGE_KEY,
-  clearAuth,
-  readAuth,
-  saveAuth,
-} from '../lib/authStorage';
+import { getCurrentUser, logoutUser } from '../lib/api/penny-wise';
 import { AuthContext } from './auth-context';
 
 export function AuthProvider({ children }) {
-  const [auth, setAuth] = useState(() => readAuth());
-
-  const signIn = useCallback(({ token, user }) => {
-    const value = { token, user };
-    saveAuth(value);
-    setAuth(value);
-  }, []);
-
-  const signOut = useCallback(() => {
-    clearAuth();
-    setAuth(null);
-  }, []);
+  const [auth, setAuth] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const onStorage = (event) => {
-      if (event.key !== null && event.key !== AUTH_STORAGE_KEY) return;
-      setAuth(readAuth());
+    let isMounted = true;
+
+    getCurrentUser()
+      .then((data) => {
+        if (!isMounted) return;
+        setAuth(data?.user ? { user: data.user } : null);
+      })
+      .catch(() => {
+        if (isMounted) setAuth(null);
+      })
+      .finally(() => {
+        if (isMounted) setReady(true);
+      });
+
+    return () => {
+      isMounted = false;
     };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  useEffect(() => {
-    const resync = () => setAuth(readAuth());
-    window.addEventListener(AUTH_CHANGE_EVENT, resync);
-    return () => window.removeEventListener(AUTH_CHANGE_EVENT, resync);
+  const signIn = useCallback(async (value) => {
+    const user = value?.user ?? value ?? (await getCurrentUser())?.user;
+
+    if (!user) {
+      setAuth(null);
+      return null;
+    }
+
+    setAuth({ user });
+    return user;
+  }, []);
+
+  const signOut = useCallback(async () => {
+    try {
+      await logoutUser();
+    } finally {
+      setAuth(null);
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, signIn, signOut, ready: true }}>
+    <AuthContext.Provider value={{ auth, signIn, signOut, ready }}>
       {children}
     </AuthContext.Provider>
   );
