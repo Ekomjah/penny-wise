@@ -280,12 +280,27 @@ router.post('/login', loginLimiter, async (req, res) => {
     }
 
     const token = signToken(user);
-
-    return res.json({ token, user: sanitizeUser(user) });
+    res.cookie('authCookie', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000, //expires in 15mins,
+    });
+    return res.json({ success: true });
   } catch (err) {
     console.log({ err });
     return res.status(500).json({ error: 'Failed to log in' });
   }
+});
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('authCookie', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+  });
+
+  res.json({ success: true });
 });
 
 module.exports = router;
