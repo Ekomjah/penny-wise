@@ -10,6 +10,16 @@ const { requireAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
+const AUTH_COOKIE_NAME = 'authCookie';
+const AUTH_SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const isProduction = process.env.NODE_ENV === 'production';
+const authCookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  path: '/',
+};
+
 const sanitizeUser = (user) => ({
   id: user._id,
   email: user.email,
@@ -165,6 +175,17 @@ function signToken(user) {
   );
 }
 
+function setAuthCookie(res, user) {
+  res.cookie(AUTH_COOKIE_NAME, signToken(user), {
+    ...authCookieOptions,
+    maxAge: AUTH_SESSION_MAX_AGE_MS,
+  });
+}
+
+function clearAuthCookie(res) {
+  res.clearCookie(AUTH_COOKIE_NAME, authCookieOptions);
+}
+
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -251,13 +272,7 @@ router.post('/register', registerLimiter, async (req, res) => {
       });
     }
 
-    const token = signToken(user);
-    res.cookie('authCookie', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 15 * 60 * 1000,
-    });
+    setAuthCookie(res, user);
     return res.status(201).json({ success: true, user: sanitizeUser(user) });
   } catch (err) {
     console.log({ err });
@@ -284,13 +299,7 @@ router.post('/login', loginLimiter, async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = signToken(user);
-    res.cookie('authCookie', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 15 * 60 * 1000, //expires in 15mins,
-    });
+    setAuthCookie(res, user);
     return res.json({ success: true, user: sanitizeUser(user) });
   } catch (err) {
     console.log({ err });
@@ -299,12 +308,7 @@ router.post('/login', loginLimiter, async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('authCookie', {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-  });
-
+  clearAuthCookie(res);
   res.json({ success: true });
 });
 

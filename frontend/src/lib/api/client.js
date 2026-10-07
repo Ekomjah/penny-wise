@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const AUTH_EXPIRED_EVENT = 'penny-wise.auth-expired';
+
 const baseURL =
   import.meta.env.VITE_API_BASE_URL?.trim() || 'http://localhost:5000/api';
 
@@ -28,7 +30,21 @@ export function normalizeApiError(error) {
 }
 
 export function handleApiError(error) {
-  return normalizeApiError(error);
+  const normalized = normalizeApiError(error);
+  const requestUrl = error?.config?.url || '';
+  const isAuthEntry = ['/auth/login', '/auth/register'].some((path) =>
+    requestUrl.includes(path),
+  );
+
+  if (
+    normalized.status === 401 &&
+    !isAuthEntry &&
+    typeof window !== 'undefined'
+  ) {
+    window.dispatchEvent(new Event(AUTH_EXPIRED_EVENT));
+  }
+
+  return normalized;
 }
 
 export const api = axios.create({

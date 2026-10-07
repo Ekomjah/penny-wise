@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { AUTH_EXPIRED_EVENT } from '../lib/api/client';
 import { getCurrentUser, logoutUser } from '../lib/api/penny-wise';
 import { AuthContext } from './auth-context';
 
@@ -26,21 +27,32 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
+  useEffect(() => {
+    const onExpired = () => setAuth(null);
+    window.addEventListener(AUTH_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, onExpired);
+  }, []);
+
   const signIn = useCallback(async (value) => {
-    const user = value?.user ?? value ?? (await getCurrentUser())?.user;
+    let user = value?.user ?? value;
 
     if (!user) {
-      setAuth(null);
-      return null;
+      try {
+        user = (await getCurrentUser())?.user;
+      } catch {
+        user = null;
+      }
     }
 
-    setAuth({ user });
-    return user;
+    setAuth(user ? { user } : null);
+    return user ?? null;
   }, []);
 
   const signOut = useCallback(async () => {
     try {
       await logoutUser();
+    } catch {
+      return;
     } finally {
       setAuth(null);
     }

@@ -5,12 +5,14 @@ const cookieParser = require('cookie-parser');
 const coursesRouter = require('./routes/courses');
 const authRoutes = require('./routes/auth');
 
+const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+
 function createApp() {
   const app = express();
   app.use(express.json());
   app.use(
     cors({
-      origin: 'http://localhost:5173',
+      origin: clientOrigin,
       credentials: true,
     }),
   );
