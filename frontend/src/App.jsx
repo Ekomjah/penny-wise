@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 import RequireAuth from './components/RequireAuth';
 import LandingPage from './pages/LandingPage';
@@ -60,6 +61,7 @@ export function AppRoutes() {
         <Route path='/errorpage' element={<ErrorPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
+      <Footer />
     </>
   );
 }
