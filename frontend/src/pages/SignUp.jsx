@@ -157,7 +157,15 @@ const SignUp = () => {
             required
             className='mt-0.5 h-4 w-4 shrink-0 rounded accent-(--accent-bold)'
           />
-          I agree to the Terms and Privacy Policy
+          I agree to the
+          <a href='/terms' target='_blank' rel='noopener noreferrer'>
+            Terms
+          </a>
+          and
+          <a href='/privacy' target='_blank' rel='noopener noreferrer'>
+            Privacy Policy
+          </a>
+          .
         </label>
 
         <SubmitButton loading={loading}>
