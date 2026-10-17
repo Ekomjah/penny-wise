@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CircleUser, Globe, Mail, User } from 'lucide-react';
-import { getCountries } from '../lib/api/penny-wise';
+import { getCountries, submitProfile } from '../lib/api/penny-wise';
 import { useAuth } from '../lib/useAuth';
 
 const levelTitlePicker = (level) => {
@@ -26,7 +26,7 @@ const levelTitlePicker = (level) => {
 };
 
 const COUNTRY_SUGGESTIONS = [
-  'United States',
+  'United States of America',
   'United Kingdom',
   'Canada',
   'Nigeria',
@@ -160,6 +160,7 @@ const ProfileForm = ({ user }) => {
   const trimmedName = displayName.trim();
   const trimmedCountry = country.trim();
   const trimmedBio = bio.trim();
+  // const email = user.email ? user.email : '';
   const dirty =
     trimmedName !== (user.displayName ?? '') ||
     trimmedCountry !== (user.country ?? '') ||
@@ -189,10 +190,25 @@ const ProfileForm = ({ user }) => {
         ...(user.role === 'author' ? { bio: trimmedBio } : {}),
       },
     });
-    setStatus({
-      state: 'success',
-      message: 'Profile saved on this device. Server sync coming soon.',
-    });
+    const controller = new AbortController();
+    try {
+      submitProfile(
+        {
+          ...user,
+          userId: user.id,
+          displayName: trimmedName,
+          country: trimmedCountry,
+          ...(user.role === 'author' ? { bio: trimmedBio } : {}),
+        },
+        controller.signal,
+      );
+      setStatus({ state: 'success', message: 'Profile saved.' });
+    } catch (err) {
+      setStatus({
+        state: 'error',
+        message: err.message || 'Failed to save profile.',
+      });
+    }
   };
 
   const handleDiscard = () => {
