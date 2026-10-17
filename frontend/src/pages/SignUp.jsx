@@ -157,7 +157,27 @@ const SignUp = () => {
             required
             className='mt-0.5 h-4 w-4 shrink-0 rounded accent-(--accent-bold)'
           />
-          I agree to the Terms and Privacy Policy
+          <div>
+            I agree to the
+            <a
+              href='https://github.com/freeCodeCamp/terms-of-service/blob/master/index.html'
+              className='mx-1 underline'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Terms
+            </a>
+            and
+            <a
+              href='https://privacy-policy.freecodecamp.org/'
+              className='mx-1 underline'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Privacy Policy
+            </a>
+            .
+          </div>
         </label>
 
         <SubmitButton loading={loading}>
