@@ -181,7 +181,7 @@ function DesktopMenuElements() {
           )}
           <span
             aria-hidden='true'
-            className='mx-1 hidden h-6 w-px bg-(--border) xl:block'
+            className='mx-1 hidden h-6 w-px bg-[var(--border)] xl:block'
           />
           <NavLink to='/profile' aria-label='Profile'>
             <span className='flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[var(--accent-bg)]'>
