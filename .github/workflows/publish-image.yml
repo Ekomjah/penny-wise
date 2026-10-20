@@ -6,7 +6,7 @@ on:
     branches: [main]
     paths:
       - "backend/**"
-      - ".github/workflows/publish-images.yml"
+      - ".github/workflows/publish-image.yml"
   workflow_dispatch:
 
 permissions:
